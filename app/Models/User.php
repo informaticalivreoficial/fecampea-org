@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
@@ -37,26 +38,13 @@ class User extends Authenticatable
         'profissao',
         'renda',
         'profissao_empresa',
-        'cep',
-        'rua',
-        'num',
-        'complemento',
-        'bairro',
-        'uf',
-        'cidade',
-        'telefone',
-        'celular',
-        'whatsapp',
-        'skype',
-        'facebook',
-        'twitter',
-        'instagram',
-        'linkedin',
-        'vimeo',
-        'youtube',
-        'fliccr',
-        'soundclound',
-        'snapchat',
+        //Endereço
+        'cep', 'rua', 'num', 'complemento', 'bairro', 'uf', 'cidade',
+        //Contato
+        'telefone', 'celular', 'whatsapp', 'skype',
+        //Redes
+        'facebook', 'twitter', 'instagram', 'linkedin', 'vimeo',
+        'youtube', 'fliccr', 'soundclound', 'snapchat',
         'tipo_de_comunhao',
         'nome_conjuje',
         'genero_conjuje',
@@ -72,8 +60,7 @@ class User extends Authenticatable
         'client',
         'editor',
         'superadmin',
-        'status',
-        'notasadicionais'
+        'status'
     ];
 
     /**
@@ -172,7 +159,8 @@ class User extends Authenticatable
     public function getUrlAvatarAttribute()
     {
         if (!empty($this->avatar)) {
-            return Storage::url(Cropper::thumb($this->avatar, 500, 500));
+            //return Storage::url(Cropper::thumb($this->avatar, 500, 500));
+            return Storage::url($this->avatar);
         }
         return '';
     }

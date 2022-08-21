@@ -238,6 +238,11 @@ return [
             'icon' => 'fas fa-tachometer-alt',
         ],
         [
+            'text' => 'Configurações',
+            'url'  => 'admin/configuracoes',
+            'icon' => 'fas fa-cog',
+        ],
+        [
             'text' => 'Usuários',            
             'icon' => 'fas fa-fw fa-users',
             'submenu' => [
@@ -279,6 +284,38 @@ return [
                     'text' => 'Categorias',
                     'url'  => 'admin/posts/categorias',
                 ]
+            ]
+        ],
+        [
+            'text' => 'Parceiros',
+            'url'  => 'admin/parceiros',
+            'icon' => 'fas fa-puzzle-piece',
+        ], 
+        [
+            'text' => 'Banner Slides',
+            'url'  => 'admin/slides',
+            'icon' => 'fas fa-film',
+        ],
+        [
+            'text' => 'Email',            
+            'icon' => 'fas fa-fw fa-envelope',
+            'submenu' => [
+                [
+                    'text' => 'Enviar Email',
+                    'url'  => 'admin/email/enviar-email',
+                ],
+                [
+                    'text' => 'Listas',
+                    'url'  => 'admin/listas',
+                ],
+                [
+                    'text' => 'Cadastrar Lista',
+                    'url'  => 'admin/listas/cadastrar',
+                ],
+                [
+                    'text' => 'Cadastrar Email',
+                    'url'  => 'admin/listas/email/cadastrar',
+                ],
             ]
         ],      
         

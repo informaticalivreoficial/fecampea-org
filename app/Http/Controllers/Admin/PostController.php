@@ -76,7 +76,7 @@ class PostController extends Controller
             foreach ($request->allFiles()['files'] as $image) {
                 $postGb = new PostGb();
                 $postGb->post = $criarPost->id;
-                $postGb->path = $image->storeAs($secao.'/' . $criarPost->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
+                $postGb->path = $image->storeAs(env('AWS_PASTA') . $secao.'/' . $criarPost->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
                 $postGb->save();
                 unset($postGb);
             }
@@ -137,7 +137,7 @@ class PostController extends Controller
             foreach ($request->allFiles()['files'] as $image) {
                 $postImage = new PostGb();
                 $postImage->post = $postUpdate->id;
-                $postImage->path = $image->storeAs($secao.'/' . $postUpdate->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
+                $postImage->path = $image->storeAs(env('AWS_PASTA') . $secao.'/' . $postUpdate->id, Str::slug($request->titulo) . '-' . str_replace('.', '', microtime(true)) . '.' . $image->extension());
                 $postImage->save();
                 unset($postImage);
             }
@@ -180,7 +180,7 @@ class PostController extends Controller
     {
         $imageDelete = PostGb::where('id', $request->image)->first();
         Storage::delete($imageDelete->path);
-        Cropper::flush($imageDelete->path);
+        //Cropper::flush($imageDelete->path);
         $imageDelete->delete();
         $json = [
             'success' => true,
@@ -208,7 +208,7 @@ class PostController extends Controller
     {
         $postdelete = Post::where('id', $request->id)->first();
         $postGb = PostGb::where('post', $postdelete->id)->first();
-        $nome = getPrimeiroNome(Auth::user()->name);
+        $nome = \App\Helpers\Renato::getPrimeiroNome(Auth::user()->name);
 
         $tipo = ($postdelete->tipo == 'artigo' ? 'este artigo' : 
                  ($postdelete->tipo == 'noticia' ? 'esta notícia' : 
@@ -240,7 +240,7 @@ class PostController extends Controller
         if(!empty($postdelete)){
             if(!empty($imageDelete)){
                 Storage::delete($imageDelete->path);
-                Cropper::flush($imageDelete->path);
+                //Cropper::flush($imageDelete->path);
                 $imageDelete->delete();
                 Storage::deleteDirectory($secao.'/'.$postdelete->id);
                 $postdelete->delete();

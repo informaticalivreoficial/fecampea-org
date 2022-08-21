@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Support\Cropper;
+use Illuminate\Notifications\Notifiable;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'posts'; 
 
@@ -47,7 +47,7 @@ class Post extends Model
 
     /**
      * Relacionamentos
-     */
+    */
 
     public function user()
     {
@@ -88,11 +88,12 @@ class Post extends Model
             $cover = $images->first(['path']);
         }
 
-        if(empty($cover['path']) || !File::exists('../public/storage/' . $cover['path'])) {
+        if(empty($cover['path']) || !Storage::disk()->exists($cover['path'])) {
             return url(asset('backend/assets/images/image.jpg'));
         }
 
-        return Storage::url(Cropper::thumb($cover['path'], 800, 800));
+        //return Storage::url(Cropper::thumb($cover['path'], 720, 480));
+        return Storage::url($cover['path']);
     }
 
     public function nocover()
@@ -105,7 +106,7 @@ class Post extends Model
             $cover = $images->first(['path']);
         }
 
-        if(empty($cover['path']) || !File::exists('../public/storage/' . $cover['path'])) {
+        if(empty($cover['path']) || !Storage::disk()->exists($cover['path'])) {
             return url(asset('backend/assets/images/image.jpg'));
         }
 

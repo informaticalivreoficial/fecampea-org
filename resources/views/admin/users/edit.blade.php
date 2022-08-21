@@ -69,8 +69,8 @@
                                             <div class="form-group">
                                                 <div class="thumb_user_admin">
                                                     @php
-                                                        if(!empty($user->avatar) && \Illuminate\Support\Facades\File::exists(public_path() . '/storage/' . $user->avatar)){
-                                                            $cover = url('storage/'.$user->avatar);
+                                                        if(!empty($user->avatar) && env('AWS_PASTA') . \Illuminate\Support\Facades\Storage::exists($user->avatar)){
+                                                            $cover = \Illuminate\Support\Facades\Storage::url($user->avatar);
                                                         } else {
                                                             $cover = url(asset('backend/assets/images/image.jpg'));
                                                         }
@@ -243,7 +243,7 @@
                                                         <div class="col-12 col-md-6 col-lg-3"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>Complemento:</b></label>
-                                                                <input type="text" class="form-control" placeholder="Completo (Opcional)" name="complemento" value="{{old('complemento') ?? $user->complemento}}">
+                                                                <input type="text" class="form-control" placeholder="Complemento (Opcional)" name="complemento" value="{{old('complemento') ?? $user->complemento}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-2"> 
@@ -270,19 +270,19 @@
                                                         <div class="col-12 col-md-6 col-lg-4"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>Residencial:</b></label>
-                                                                <input type="text" class="form-control telefonemask" placeholder="Número do Telefonce com DDD" name="telefone" value="{{old('telefone') ?? $user->telefone}}">
+                                                                <input type="text" class="form-control telefonemask" placeholder="Número do Telefone com DDD" name="telefone" value="{{old('telefone') ?? $user->telefone}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>*Celular:</b></label>
-                                                                <input type="text" class="form-control celularmask" placeholder="Número do Celuler com DDD" name="celular" value="{{old('celular') ?? $user->celular}}">
+                                                                <input type="text" class="form-control celularmask" placeholder="Número do Celular com DDD" name="celular" value="{{old('celular') ?? $user->celular}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>WhatsApp:</b></label>
-                                                                <input type="text" class="form-control whatsappmask" placeholder="Número do Celuler com DDD" name="whatsapp" value="{{old('whatsapp') ?? $user->whatsapp}}">
+                                                                <input type="text" class="form-control whatsappmask" placeholder="Número do Celular com DDD" name="whatsapp" value="{{old('whatsapp') ?? $user->whatsapp}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4"> 

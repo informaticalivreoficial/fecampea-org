@@ -204,9 +204,11 @@
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>Cidade:</b></label>
                                                                 <select id="city-dd" class="form-control" name="cidade">
-                                                                    @if(!empty($cidades) && !empty($user->cidade))
+                                                                    @if(!empty($cidades)))
+                                                                        <option value="">Selecione o Estado</option>
                                                                         @foreach($cidades as $cidade)
-                                                                        <option value="{{$cidade->cidade_id}}" {{ (old('cidade') == $cidade->cidade_id ? 'selected' : '') }}>{{$cidade->cidade_nome}}</option>
+                                                                            <option value="{{$cidade->cidade_id}}" 
+                                                                                    {{ (old('cidade') == $cidade->cidade_id ? 'selected' : '') }}>{{$cidade->cidade_nome}}</option>                                                                   
                                                                         @endforeach                                                                        
                                                                     @endif
                                                                 </select>
@@ -235,7 +237,7 @@
                                                         <div class="col-12 col-md-6 col-lg-3"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>Complemento:</b></label>
-                                                                <input type="text" class="form-control" placeholder="Completo (Opcional)" name="complemento" value="{{old('complemento')}}">
+                                                                <input type="text" class="form-control" placeholder="Complemento (Opcional)" name="complemento" value="{{old('complemento')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-2"> 
@@ -262,19 +264,19 @@
                                                         <div class="col-12 col-md-6 col-lg-4"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>Residencial:</b></label>
-                                                                <input type="text" class="form-control telefonemask" placeholder="Número do Telefonce com DDD" name="telefone" value="{{old('telefone')}}">
+                                                                <input type="text" class="form-control telefonemask" placeholder="Número do Telefone com DDD" name="telefone" value="{{old('telefone')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>*Celular:</b></label>
-                                                                <input type="text" class="form-control celularmask" placeholder="Número do Celuler com DDD" name="celular" value="{{old('celular')}}">
+                                                                <input type="text" class="form-control celularmask" placeholder="Número do Celular com DDD" name="celular" value="{{old('celular')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>WhatsApp:</b></label>
-                                                                <input type="text" class="form-control whatsappmask" placeholder="Número do Celuler com DDD" name="whatsapp" value="{{old('whatsapp')}}">
+                                                                <input type="text" class="form-control whatsappmask" placeholder="Número do Celular com DDD" name="whatsapp" value="{{old('whatsapp')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4"> 

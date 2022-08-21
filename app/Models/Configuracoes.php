@@ -16,6 +16,7 @@ class Configuracoes extends Model
         'status',
         'ano_de_inicio',
         'nomedosite',
+        'politicas_de_privacidade',
         'cnpj',
         'ie',
         'dominio',
@@ -66,65 +67,71 @@ class Configuracoes extends Model
         'rss',
         'rss_data',
         'sitemap',
-        'sitemap_data',
-        'politicas_de_privacidade'
+        'sitemap_data'
     ];
 
     /**
      * Accerssors and Mutators
-    */        
+     */
+    
     public function getmetaimg()
     {
-        $image = $this->metaimg;        
-        if(empty($this->metaimg) || !File::exists('../public/storage/' . $image)) {
+        //$image = $this->metaimg;        
+        if(empty($this->metaimg) || !Storage::disk()->exists(env('AWS_PASTA') . $this->metaimg)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
-        return Storage::url(Cropper::thumb($this->metaimg, env('METAIMG_WIDTH'), env('METAIMG_HEIGHT')));
+        //return Storage::url(Cropper::thumb($this->metaimg, env('METAIMG_WIDTH'), env('METAIMG_HEIGHT')));
+        return Storage::url($this->metaimg);
     }
     
     public function getlogomarca()
     {
-        $image = $this->logomarca;        
-        if(empty($this->logomarca) || !File::exists('../public/storage/' . $image)) {
+        //$image = $this->logomarca;        
+        if(empty($this->logomarca) || !Storage::disk()->exists(env('AWS_PASTA') . $this->logomarca)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
-        return Storage::url(Cropper::thumb($this->logomarca, env('LOGOMARCA_WIDTH'), env('LOGOMARCA_HEIGHT')));
+        //return Storage::url(Cropper::thumb($this->logomarca, env('LOGOMARCA_WIDTH'), env('LOGOMARCA_HEIGHT')));
+        return Storage::url($this->logomarca);
     }
     
     public function getlogoadmin()
     {
-        $image = $this->logomarca_admin;        
-        if(empty($this->logomarca_admin) || !File::exists('../public/storage/' . $image)) {
+        //$image = $this->logomarca_admin;        
+        if(empty($this->logomarca_admin) || !Storage::disk()->exists(env('AWS_PASTA') . $this->logomarca_admin)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
-        return Storage::url(Cropper::thumb($this->logomarca_admin, env('LOGOMARCA_GERENCIADOR_WIDTH'), env('LOGOMARCA_GERENCIADOR_HEIGHT')));
+        //return Storage::url(Cropper::thumb($this->logomarca_admin, env('LOGOMARCA_GERENCIADOR_WIDTH'), env('LOGOMARCA_GERENCIADOR_HEIGHT')));
+        return Storage::url($this->logomarca_admin);
     }
     
     public function getfaveicon()
     {
-        $image = $this->favicon;        
-        if(empty($this->favicon) || !File::exists('../public/storage/' . $image)) {
+        //$image = $this->favicon;        
+        if(empty($this->favicon) || !Storage::disk()->exists(env('AWS_PASTA') . $this->favicon)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
-        return Storage::url(Cropper::thumb($this->favicon, env('FAVEICON_WIDTH'), env('FAVEICON_HEIGHT')));
+        //return Storage::url(Cropper::thumb($this->favicon, env('FAVEICON_WIDTH'), env('FAVEICON_HEIGHT')));
+        return Storage::url($this->favicon);
     }
     
     public function getmarcadagua()
     {
-        $image = $this->marcadagua;        
-        if(empty($this->marcadagua) || !File::exists('../public/storage/' . $image)) {
+        //$image = $this->marcadagua;        
+        if(empty($this->marcadagua) || !Storage::disk()->exists(env('AWS_PASTA') . $this->marcadagua)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
-        return Storage::url(Cropper::thumb($this->marcadagua, env('MARCADAGUA_WIDTH'), env('MARCADAGUA_HEIGHT')));
+        //return Storage::url(Cropper::thumb($this->marcadagua, env('MARCADAGUA_WIDTH'), env('MARCADAGUA_HEIGHT')));
+        return Storage::url($this->marcadagua);
     }
     
     public function gettopodosite()
     {
-        $image = $this->imgheader;        
-        if(empty($this->imgheader) || !File::exists('../public/storage/' . $image)) {
+        //$image = $this->imgheader;        
+        if(empty($this->imgheader) || !Storage::disk()->exists(env('AWS_PASTA') . $this->imgheader)) {
             return url(asset('backend/assets/images/image.jpg'));
         } 
-        return Storage::url(Cropper::thumb($this->imgheader, env('IMGHEADER_WIDTH'), env('IMGHEADER_HEIGHT')));
+        //return Storage::url(Cropper::thumb($this->imgheader, env('IMGHEADER_WIDTH'), env('IMGHEADER_HEIGHT')));
+        return Storage::url($this->imgheader);
     }
     
     public function setCepAttribute($value)

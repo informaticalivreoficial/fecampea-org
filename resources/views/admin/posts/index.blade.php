@@ -74,7 +74,7 @@
                 </div>
             @endif
         </div>
-        <div class="card-footer paginacao">  
+        <div class="card-footer">  
             {{ $posts->links() }}
         </div>
     </div>

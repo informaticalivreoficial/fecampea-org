@@ -67,13 +67,15 @@
                         @foreach($users as $user)                    
                         <tr style="{{ ($user->status == '1' ? '' : 'background: #fffed8 !important;')  }}">
                             @php
-                                if(!empty($user->avatar) && \Illuminate\Support\Facades\File::exists(public_path() . '/storage/' . $user->avatar)){
-                                    $cover = url('storage/'.$user->avatar);
+                                if(!empty($user->avatar) && \Illuminate\Support\Facades\Storage::exists($user->avatar)){
+                                    $cover = \Illuminate\Support\Facades\Storage::url($user->avatar);
                                 } else {
                                     if($user->genero == 'masculino'){
                                         $cover = url(asset('backend/assets/images/avatar5.png'));
-                                    }else{
+                                    }elseif($user->genero == 'feminino'){
                                         $cover = url(asset('backend/assets/images/avatar3.png'));
+                                    }else{
+                                        $cover = url(asset('backend/assets/images/image.jpg'));
                                     }
                                 }
                             @endphp
@@ -88,9 +90,14 @@
                             <td>
                                 <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $user->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $user->status == true ? 'checked' : ''}}>
                                 @if($user->whatsapp != '')
-                                    <a target="_blank" href="{{getNumZap($user->whatsapp)}}" class="btn btn-xs btn-success text-white"><i class="fab fa-whatsapp"></i></a>
-                                @endif 
-                                <a href="{{--route('email.send',['id' => $user->id, 'parametro' => 'user'] )--}}" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></a>                           
+                                    <a target="_blank" href="{{\App\Helpers\WhatsApp::getNumZap($user->whatsapp)}}" class="btn btn-xs btn-success text-white"><i class="fab fa-whatsapp"></i></a>
+                                @endif
+                                <form class="btn btn-xs" action="{{route('email.send')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="nome" value="{{ $user->name }}">
+                                    <input type="hidden" name="email" value="{{ $user->email }}">
+                                    <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
+                                </form> 
                                 <a href="{{route('users.view',['id' => $user->id])}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
                                 <a href="{{route('users.edit',['id' => $user->id])}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$user->id}}" data-toggle="modal" data-target="#modal-default">
