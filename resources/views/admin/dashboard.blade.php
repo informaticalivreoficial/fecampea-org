@@ -297,6 +297,15 @@
 </section>
 @stop
 
+@section('footer')
+<footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Versão</b> {{env('VERSAO_SISTEMA')}}
+    </div>
+    <strong>Copyright © 2005 - {{date('Y')}} <a href="https://informaticalivre.com.br">Informática Livre</a>.</strong>
+  </footer>
+@endsection
+
 @section('css')
 <link rel="stylesheet" href="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.css'))}}">
 <style>
