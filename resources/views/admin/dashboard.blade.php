@@ -298,12 +298,12 @@
 @stop
 
 @section('footer')
-<footer class="main-footer">
+
     <div class="pull-right hidden-xs">
       <b>Versão</b> {{env('VERSAO_SISTEMA')}}
     </div>
     <strong>Copyright © 2005 - {{date('Y')}} <a href="https://informaticalivre.com.br">Informática Livre</a>.</strong>
-  </footer>
+  
 @endsection
 
 @section('css')
@@ -327,45 +327,52 @@
             });
         }); 
 
-        var areaChartData = {
-            labels  : [
-            @foreach($analyticsData->rows as $dataMonth)                
-                'Mês/{{substr($dataMonth[0], -2)}}',                                 
-            @endforeach
-            ],
-            datasets: [
-                {
-                label               : 'Visitas Únicas',
-                backgroundColor     : 'rgba(60,141,188,0.9)',
-                borderColor         : 'rgba(60,141,188,0.8)',
-                pointRadius          : false,
-                pointColor          : '#3b8bba',
-                pointStrokeColor    : 'rgba(60,141,188,1)',
-                pointHighlightFill  : '#fff',
-                pointHighlightStroke: 'rgba(60,141,188,1)',
-                data                : [
-                                    @foreach($analyticsData->rows as $dataMonth)                
-                                        '{{$dataMonth[2]}}',                                 
-                                    @endforeach
-                                    ]
-                },
-                {
-                label               : 'Visitas',
-                backgroundColor     : 'rgba(210, 214, 222, 1)',
-                borderColor         : 'rgba(210, 214, 222, 1)',
-                pointRadius         : false,
-                pointColor          : 'rgba(210, 214, 222, 1)',
-                pointStrokeColor    : '#c1c7d1',
-                pointHighlightFill  : '#fff',
-                pointHighlightStroke: 'rgba(220,220,220,1)',
-                data                : [
-                                    @foreach($analyticsData->rows as $dataMonth)                
-                                        '{{$dataMonth[1]}}',                                 
-                                    @endforeach
-                                    ]
-                },
-            ]
+        @php
+        if($analyticsData->rows != null){
+        @endphp
+            var areaChartData = {
+                labels  : [
+                @foreach($analyticsData->rows as $dataMonth)                
+                    'Mês/{{substr($dataMonth[0], -2)}}',                                 
+                @endforeach
+                ],
+                datasets: [
+                    {
+                    label               : 'Visitas Únicas',
+                    backgroundColor     : 'rgba(60,141,188,0.9)',
+                    borderColor         : 'rgba(60,141,188,0.8)',
+                    pointRadius          : false,
+                    pointColor          : '#3b8bba',
+                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data                : [
+                                        @foreach($analyticsData->rows as $dataMonth)                
+                                            '{{$dataMonth[2]}}',                                 
+                                        @endforeach
+                                        ]
+                    },
+                    {
+                    label               : 'Visitas',
+                    backgroundColor     : 'rgba(210, 214, 222, 1)',
+                    borderColor         : 'rgba(210, 214, 222, 1)',
+                    pointRadius         : false,
+                    pointColor          : 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor    : '#c1c7d1',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : [
+                                        @foreach($analyticsData->rows as $dataMonth)                
+                                            '{{$dataMonth[1]}}',                                 
+                                        @endforeach
+                                        ]
+                    },
+                ]
+            }
+        @php    
         }
+        @endphp
+        
 
         //-------------
         //- BAR CHART -

@@ -19,22 +19,59 @@ class AdminController extends Controller
         $time = User::where('admin', 1)->orWhere('editor', 1)->count();
         $usersAvailable = User::where('client', 1)->available()->count();
         $usersUnavailable = User::where('client', 1)->unavailable()->count();
-        $postsArtigos = CatPost::where('tipo', 'artigo')->count();
-        $postsNoticias = CatPost::where('tipo', 'noticia')->count();
-        $postsPaginas = CatPost::where('tipo', 'pagina')->count();
+        //CHART PIZZA
+        $postsArtigos = Post::where('tipo', 'artigo')->count();
+        $postsPaginas = Post::where('tipo', 'pagina')->count();
+        $postsNoticias = Post::where('tipo', 'noticia')->count();
 
         //Notícias
         $noticiasAvailable = Post::postson()->where('tipo', 'noticia')->count();
         $noticiasUnavailable = Post::postsoff()->where('tipo', 'noticia')->count();
+        $noticiasTop = Post::orderBy('views', 'DESC')
+                ->where('tipo', 'noticia')
+                ->limit(6)
+                ->postson()   
+                ->get();                
+        $totalViewsNoticias = Post::orderBy('views', 'DESC')
+                ->where('tipo', 'noticia')
+                ->postson()
+                ->limit(6)
+                ->get()
+                ->sum('views');
+        
         //Artigos
         $artigosAvailable = Post::postson()->where('tipo', 'artigo')->count();
         $artigosUnavailable = Post::postsoff()->where('tipo', 'artigo')->count();
+        $artigosTop = Post::orderBy('views', 'DESC')
+                ->where('tipo', 'artigo')
+                ->limit(6)
+                ->postson()   
+                ->get();                
+        $totalViewsArtigos = Post::orderBy('views', 'DESC')
+                ->where('tipo', 'artigo')
+                ->postson()
+                ->limit(6)
+                ->get()
+                ->sum('views');
+        //Páginas
+        $paginasTop = Post::orderBy('views', 'DESC')
+                ->where('tipo', 'pagina')
+                ->limit(6)
+                ->postson()   
+                ->get();
+        $totalViewsPaginas = Post::orderBy('views', 'DESC')
+                ->where('tipo', 'pagina')
+                ->postson()
+                ->limit(6)
+                ->get()
+                ->sum('views');
 
         //Analitcs
         $visitasHoje = Analytics::fetchMostVisitedPages(Period::days(1));
         $visitas365 = Analytics::fetchTotalVisitorsAndPageViews(Period::months(5));
         $top_browser = Analytics::fetchTopBrowsers(Period::months(5));
 
+        
         $analyticsData = Analytics::performQuery(
             Period::months(5),
                'ga:sessions',
@@ -42,17 +79,23 @@ class AdminController extends Controller
                    'metrics' => 'ga:sessions, ga:visitors, ga:pageviews',
                    'dimensions' => 'ga:yearMonth'
                ]
-         ); 
+         );         
         
-
         return view('admin.dashboard',[
             'time' => $time,
             //Notícias
             'noticiasAvailable' => $noticiasAvailable,
             'noticiasUnavailable' => $noticiasUnavailable,
+            'noticiasTop' => $noticiasTop,
+            'noticiastotalviews' => $totalViewsNoticias,
             //Artigos
             'artigosAvailable' => $artigosAvailable,
             'artigosUnavailable' => $artigosUnavailable,
+            'artigosTop' => $artigosTop,
+            'artigostotalviews' => $totalViewsArtigos,
+            //Páginas
+            'paginasTop' => $paginasTop,
+            'paginastotalviews' => $totalViewsPaginas,
             'usersAvailable' => $usersAvailable,
             'usersUnavailable' => $usersUnavailable,
             'postsArtigos' => $postsArtigos,
