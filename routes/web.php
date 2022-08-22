@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\EmailController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\CatPostController;
 use App\Http\Controllers\Admin\ConfigController;
+use App\Http\Controllers\Admin\ParceiroController;
 
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
@@ -63,6 +64,11 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     /** FEED */
     //Route::get('feed', 'RssFeedController@feed');
     Route::get('feed', [RssFeedController::class, 'feed'])->name('feed');
+
+    //****************************** Parceiros *********************************************/
+    Route::get('/sendEmailParceiro', [SendEmailController::class, 'sendEmailParceiro'])->name('sendEmailParceiro');
+    Route::get('/partner/{slug}', [WebController::class, 'parceiro'])->name('parceiro');
+    Route::get('/partners', [WebController::class, 'parceiros'])->name('parceiros');
     
 
 });
