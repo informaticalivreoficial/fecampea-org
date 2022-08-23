@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ConfigController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\ParceiroController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Web\WebController;
 
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
