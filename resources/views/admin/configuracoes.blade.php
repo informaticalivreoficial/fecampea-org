@@ -505,37 +505,6 @@ $config1 = [
     </div> 
 </form>
 
-<div class="modal fade" id="modal-suporte">
-    <div class="modal-dialog">
-        <div class="modal-content p-3">
-            <span class="j_param_data"></span>
-            <form class="btn_suporte form_hide" method="post" action="" autocomplete="off">
-            @csrf    
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <h5><b>Suporte ao Cliente</b></h5>  
-                        <p>Digite sua solicitação de suporte ou dúvida no campo abaixo. Iremos atender o mais breve possível.</p>                                          
-                    </div>
-                </div>
-                <hr>
-                <div class="col-sm-12 mt-2">
-                    <div class="form-group">
-                        <input type="hidden" name="username" value="{{ Auth::user()->name }}"/>
-                        <input type="hidden" name="sitename" value="{{$config->nomedosite}}"/>
-                        <input type="hidden" name="email" value="{{ Auth::user()->email }}"/>
-                        <textarea class="form-control noclear" rows="5" name="mensagem"></textarea>                                          
-                    </div>
-                </div>
-                <div class="col-12 mb-4">
-                    <button type="submit" class="btn btn-success b_nome"><i class="nav-icon fas fa-check mr-2"></i> Enviar Solicitação</button>
-                </div>
-            </form>            
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
 <div class="modal fade" id="modal-qrcode">
     <div class="modal-dialog">
         <div class="modal-content">

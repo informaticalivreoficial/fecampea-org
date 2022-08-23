@@ -44,31 +44,20 @@
     </div> 
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <div class="info-box">
-            <span class="info-box-icon bg-teal"><a href="" title="Empresas"><i class="fa far fa-industry"></i></a></span>
+            <span class="info-box-icon bg-teal"><a href="" title="Newsletter"><i class="fa far fa-envelope"></i></a></span>
 
             <div class="info-box-content">
-                <span class="info-box-text"><b>Empresas</b></span>
-                <span class="info-box-text">Ativas: </span>
-                <span class="info-box-text">Inativas: </span>
-                <span class="info-box-text">Total: </span>
+                <span class="info-box-text"><b>Newsletter</b></span>
+                <span class="info-box-text">Listas: {{$listas}}</span>
+                <span class="info-box-text">Emails: {{$emails}}</span>
+                <span class="info-box-text">Envios: {{$emailsCount}}</span>
             </div>
             <!-- /.info-box-content -->
         </div>
         <!-- /.info-box -->
     </div>       
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <div class="info-box">
-            <span class="info-box-icon bg-teal"><a href="{{--route('embarcacoes.index')--}}" title="Pedidos"><i class="fa far fa-money-check"></i></a></span>
-
-            <div class="info-box-content">
-                <span class="info-box-text"><b>Pedidos</b></span>
-                <span class="info-box-text">Aprovados: {{-- $pedidosApproved --}}</span>
-                <span class="info-box-text">Processando: {{-- $pedidosInprocess --}}</span>
-                <span class="info-box-text">Cancelado: {{-- $pedidosRejected --}}</span>
-            </div>
-            <!-- /.info-box-content -->
-        </div>
-    <!-- /.info-box -->
+        
     </div>
 </div>
 

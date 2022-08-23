@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\EmailController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\CatPostController;
 use App\Http\Controllers\Admin\ConfigController;
+use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\ParceiroController;
+use App\Http\Controllers\Admin\SlideController;
 
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 

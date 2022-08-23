@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Analytics;
+use App\Models\Newsletter;
+use App\Models\NewsletterCat;
+use Illuminate\Support\Facades\DB;
 use Spatie\Analytics\Period;
 
 class AdminController extends Controller
@@ -19,11 +22,14 @@ class AdminController extends Controller
         $time = User::where('admin', 1)->orWhere('editor', 1)->count();
         $usersAvailable = User::where('client', 1)->available()->count();
         $usersUnavailable = User::where('client', 1)->unavailable()->count();
+        //Newsletter
+        $listas = NewsletterCat::count();
+        $emails = Newsletter::count();
+        $emailsCount = Newsletter::get();
         //CHART PIZZA
         $postsArtigos = Post::where('tipo', 'artigo')->count();
         $postsPaginas = Post::where('tipo', 'pagina')->count();
         $postsNoticias = Post::where('tipo', 'noticia')->count();
-
         //Notícias
         $noticiasAvailable = Post::postson()->where('tipo', 'noticia')->count();
         $noticiasUnavailable = Post::postsoff()->where('tipo', 'noticia')->count();
@@ -82,6 +88,10 @@ class AdminController extends Controller
          );         
         
         return view('admin.dashboard',[
+            //Newsletter
+            'listas' => $listas,
+            'emails' => $emails,
+            'emailsCount' => $emailsCount->sum('count'),
             'time' => $time,
             //Notícias
             'noticiasAvailable' => $noticiasAvailable,
