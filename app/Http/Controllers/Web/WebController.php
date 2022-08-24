@@ -7,11 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Web\Atendimento;
 use App\Mail\Web\AtendimentoRetorno;
-use App\Mail\Web\Compra;
-use App\Mail\Web\CompraRetorno;
 use Illuminate\Support\Facades\Storage;
 use App\Models\{
-    CatPortifolio,
     Post,
     CatPost,
     Estados,
@@ -22,7 +19,6 @@ use App\Models\{
 use App\Services\ConfigService;
 use App\Support\Seo;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class WebController extends Controller
 {
@@ -46,7 +42,7 @@ class WebController extends Controller
                         ->skip(5)
                         ->take(7)
                         ->get();
-        $noticiasVistos = Post::where("created_at",">", Carbon::now()->subMonths(6))
+        $noticiasVistos = Post::where('created_at', '>', Carbon::now()->subMonths(6))
                         ->where('tipo', 'noticia')
                         ->postson()
                         ->limit(3)
@@ -68,8 +64,6 @@ class WebController extends Controller
 
     public function quemsomos()
     {
-        $projetosCount = Portifolio::count();
-        $clientesCount = User::where('client', 1)->count();
         $paginaQuemSomos = Post::where('tipo', 'pagina')->postson()->where('id', 5)->first();
         $head = $this->seo->render('Quem Somos - ' . $this->configService->getConfig()->nomedosite,
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -78,9 +72,7 @@ class WebController extends Controller
         );
         return view('web.quem-somos',[
             'head' => $head,
-            'paginaQuemSomos' => $paginaQuemSomos,
-            'projetosCount' => $projetosCount,
-            'clientesCount' => $clientesCount
+            'paginaQuemSomos' => $paginaQuemSomos
         ]);
     }
 
@@ -187,13 +179,6 @@ class WebController extends Controller
                     ->where('tipo', 'artigo')->postson();
             }
         })->postson()->limit(10)->get();
-
-        $projetos = Portifolio::where(function($query) use ($request){
-            if($request->search){
-                $query->orWhere('name', 'LIKE', "%{$request->search}%");
-                $query->orWhere('content', 'LIKE', "%{$request->search}%");
-            }
-        })->available()->limit(10)->get();
         
         $head = $this->seo->render('Pesquisa por ' . $request->search ?? 'Informática Livre',
             'Pesquisa - ' . $this->configService->getConfig()->nomedosite,
@@ -204,14 +189,12 @@ class WebController extends Controller
         return view('web.pesquisa',[
             'head' => $head,
             'paginas' => $paginas,
-            'artigos' => $artigos,
-            'projetos' => $projetos
+            'artigos' => $artigos
         ]);
     }
 
     public function pagina($slug)
     {
-        $projetosCount = Portifolio::count();
         $clientesCount = User::where('client', 1)->count();
         $post = Post::where('slug', $slug)->where('tipo', 'pagina')->postson()->first();        
         $post->views = $post->views + 1;
@@ -226,7 +209,6 @@ class WebController extends Controller
         return view('web.pagina', [
             'head' => $head,
             'post' => $post,
-            'projetosCount' => $projetosCount,
             'clientesCount' => $clientesCount
         ]);
     }
