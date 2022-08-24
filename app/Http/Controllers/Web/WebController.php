@@ -22,6 +22,7 @@ use App\Models\{
 use App\Services\ConfigService;
 use App\Support\Seo;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class WebController extends Controller
 {
@@ -36,8 +37,20 @@ class WebController extends Controller
 
     public function home()
     {
-        $artigos = Post::orderBy('created_at', 'DESC')->postson()->limit(3)->get();
-        $slides = Slide::orderBy('created_at', 'DESC')->available()->where('expira', '>=', Carbon::now())->get();
+        $noticiasMain = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
+                        ->postson()
+                        ->limit(5)
+                        ->get();
+        $noticiasSidebar = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
+                        ->postson()
+                        ->skip(5)
+                        ->take(7)
+                        ->get();
+        $noticiasVistos = Post::where("created_at",">", Carbon::now()->subMonths(6))
+                        ->where('tipo', 'noticia')
+                        ->postson()
+                        ->limit(3)
+                        ->get();        
         
         $head = $this->seo->render($this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -47,8 +60,9 @@ class WebController extends Controller
 
 		return view('web.home',[
             'head' => $head,
-            'artigos' => $artigos,
-            'slides' => $slides
+            'noticiasMain' => $noticiasMain,
+            'noticiasSidebar' => $noticiasSidebar,
+            'noticiasVistos' => $noticiasVistos
 		]);
     }
 
@@ -80,86 +94,6 @@ class WebController extends Controller
 
         return view('web.politica',[
             'head' => $head
-        ]);
-    }
-
-    public function portifolio()
-    {
-        $catProjetos = CatPortifolio::orderBy('created_at', 'DESC')->whereNotNull('id_pai')->available()->get(); 
-        $projetos = Portifolio::orderBy('created_at', 'DESC')->available()->exibir()->get(); 
-        $head = $this->seo->render('Portifólio - ' . $this->configService->getConfig()->nomedosite,
-            'Confira alguns dos projetos desenvolvidos pela Informática Livre',
-            route('web.portifolio'),
-            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
-        );
-        return view('web.portifolio',[
-            'head' => $head,
-            'catProjetos' => $catProjetos,
-            'projetos' => $projetos
-        ]);
-    }
-
-    public function projeto($slug)
-    {
-        $projeto = Portifolio::where('slug', $slug)->first();
-        $projeto->views += 1;
-        $projeto->save();
-        $head = $this->seo->render($projeto->name,
-            $projeto->headline ?? 'Projeto desenvolvido pela Informática Livre',
-            route('web.projeto',$projeto->slug),
-            $projeto->cover() ?? $this->configService->getMetaImg()
-        );
-        return view('web.projeto',[
-            'head' => $head,
-            'projeto' => $projeto
-        ]);
-    }
-
-    public function orcamento()
-    {
-        $produtos = Produto::orderBy('valor', 'ASC')
-                            ->where('categoria', 4)
-                            ->exibir()
-                            ->available()
-                            ->get();
-        $head = $this->seo->render('Soluções para sua empresa - ' . $this->configService->getConfig()->nomedosite,
-            'Nossa equipe está pronta para melhor atender as demandas de nossos clientes!',
-            route('web.atendimento'),
-            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
-        );        
-
-        return view('web.consultoria.produtos', [
-            'head' => $head,
-            'produtos' => $produtos            
-        ]);
-    }
-
-    public function formorcamento()
-    {        
-        $head = $this->seo->render('Orçamento Perdonalizado - ' . $this->configService->getConfig()->nomedosite,
-            'Nossa equipe está pronta para melhor atender as demandas de nossos clientes!',
-            route('web.atendimento'),
-            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
-        );        
-
-        return view('web.consultoria.consultoria', [
-            'head' => $head                       
-        ]);
-    }
-
-    public function formClient($token)
-    {
-        $estados = Estados::orderBy('estado_nome', 'ASC')->get();
-        $orcamento = Orcamento::where('token', $token)->first();
-        $head = $this->seo->render('Formulário de Orçamento Perdonalizado - ' . $this->configService->getConfig()->nomedosite,
-            'Nossa equipe está pronta para melhor atender as demandas de nossos clientes!',
-            route('web.formClient',$token),
-            $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
-        );
-        return view('web.consultoria.formulario-de-retorno',[
-            'head' => $head ,
-            'orcamento' => $orcamento,
-            'estados' => $estados
         ]);
     }
 

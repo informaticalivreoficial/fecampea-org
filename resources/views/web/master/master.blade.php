@@ -54,94 +54,118 @@
             <nav id="sticktop" class="navbar navbar-default" style="background-color:rgba(0, 0, 0, 0.7);">
               <div class="container">
                 <div class="navbar-header clearfix">
-                    <a class="navbar-brand" href="<?= BASE;?>">
+                    <a class="navbar-brand" href="{{route('web.home')}}">
                         <img src="{{$configuracoes->getLogomarca()}}" alt="{{$configuracoes->nomedosite}}"/>
                     </a>
                 </div>
                 <div class="social-wrap">
                     <ul class="social-list">
-                      <?php
-                      if(FACEBOOK):
-                          echo '<li><a href="'.FACEBOOK.'" target="blank" title="Facebook" class="icon-facebook"></a></li>';
-                      endif;
-                      if(TWITTER):
-                          echo '<li><a target="_blank" href="'.TWITTER.'" title="Twitter" class="icon-twitter"></a></li>';
-                      endif;
-                      if(INSTAGRAN):
-                          echo '<li><a target="_blank" href="'.INSTAGRAN.'" title="Instagram" class="icon-instagram"></a></li>';
-                      endif;
-                      if(GOOGLE):
-                          echo '<li><a target="_blank" href="'.GOOGLE.'" title="Google+" class="icon-google-plus"></a></li>';
-                      endif;
-                      if(LINKEDIN):
-                          echo '<li><a href="'.LINKEDIN.'" target="_blank" title="Linkedin" class="icon-linkedin"></a></li>';
-                      endif;
-                      ?>
-                  </ul>
+                        @if ($configuracoes->facebook)
+                            <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook" class="icon-facebook"></a></li>
+                        @endif
+                        @if ($configuracoes->twitter)
+                            <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter" class="icon-twitter"></a></li>
+                        @endif
+                        @if ($configuracoes->instagram)
+                            <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram" class="icon-instagram"></a></li>
+                        @endif
+                        @if ($configuracoes->linkedin)
+                            <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin" class="icon-linkedin"></a></li>
+                        @endif 
+                    </ul>
                 </div>  
                   
                 <div id="dl-menu" class="xv-menuwrapper responsive-menu">
-                    <button class="dl-trigger">Abrir Menu</button>
-                    
+                    <button class="dl-trigger">Abrir Menu</button>                    
                     <ul class="dl-menu clearfix">
-                        <li><a href="<?= BASE;?>/blog/artigos">Blog</a></li>             
-                        <?php
-                              $readMenu = new Read;
-                              $readMenu->ExeRead("menu_topo","WHERE status = '1' AND id_pai IS NULL ORDER BY nome ASC");
-                              if($readMenu->getResult()):
-                                  foreach($readMenu->getResult() as $link):
-          
-                                  //Verifica se abre na mesma janela ou não
-                                  $target = ($link['target'] == '1' ? '_blank' : '_self');
-          
-                                  // Verifica se é link externo ou interno
-                                  $Url = ($link['url'] != '' ? $link['url'] : BASE.'/'.$link['link']);
-          
-                                  // Consulta se é submenu
-                                  $readSubMenu = new Read;
-                                  $readSubMenu->ExeRead("menu_topo","WHERE status = '1' AND id_pai = :id ORDER BY nome ASC","id={$link['id']}");
-                                  if($readSubMenu->getResult()):
-                              ?>
-                                  <li class="parent"><a><?= $link['nome'];?> &nbsp;<img src="<?= PATCH;?>/images/seta.png" /></a>
-                                  <ul class="lg-submenu">
-                              <?php
-                                  foreach($readSubMenu->getResult() as $sublink):
-                                  //Verifica se abre na mesma janela ou não
-                                  $target = ($sublink['target'] == '1' ? '_blank' : '_self');
-          
-                                  // Verifica se é link externo ou interno
-                                  $Url = ($sublink['url'] != '' ? $sublink['url'] : BASE.'/'.$sublink['link']);
-                              ?>        
-                                      <li class="parent"><a target="<?= $target;?>" href="<?= $Url;?>"><?= $sublink['nome'];?></a></li>
-                              <?php
-                                  endforeach;
-                              ?>
-                                  </ul> 
-                                  
-                                  </li>
-                              <?php
-                                  else:
-                              ?>
-                                 <li><a target="<?= $target;?>" href="<?= $Url;?>"><?= $link['nome'];?></a></li>    
-                              <?php
-                                  endif;
-          
-                                  endforeach;
-                              endif;
-                              ?>
-                          <li><a href="<?= BASE;?>/pagina/atendimento">Atendimento</a></li>       
+                        <li><a href="{{route('web.blog.artigos')}}">Blog</a></li> 
+                        <li><a href="{{route('web.atendimento')}}">Atendimento</a></li>       
                     </ul>
                 </div>
               </div>
-            </nav>
-                  
+            </nav>                  
         </header> 
         <!-- Header -->
+
+        <div class="after-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">                       
+                        <form class="search-form" action="" method="post">
+                            <input type="text" name="s"/>
+                            <button type="submit"><i class="icon-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         @yield('content')
         
         <!--Footer-->
-        <?php require(REQUIRE_PATCH . '/include/footer.inc.php'); ?> 
+        <footer>
+            <div class="container">
+                <div class="footer_inner">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-lg-12">                	
+                            <div class="widget widget_text">
+                                echo '"'.$versiculo['versiculo'].'"  <br><strong>'.$versiculo['referencia'].'</strong>';
+                            </div>
+                        </div>                
+                    </div><!--row-->
+                                
+                    <div class="widget widget_newsletter">                
+                        <form action="" method="post" class="form_newsletter j_formNewsletter">                    
+                            <div class="row">
+                                <div class="col-md-12" style="padding: 0px;">
+                                    <div class="alertas"></div> 
+                                    <!-- HONEYPOT -->
+                                    <input type="hidden" class="noclear" name="bairro" value="" />
+                                    <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
+                                    <input class="noclear" type="hidden" name="action" value="newsletter" />
+                                </div>
+                            </div>
+                            <div class="row form_hide">
+                                <div class="col-xs-12 col-sm-8 col-md-10 col-lg-10" style="padding: 0px;">
+                                    <input style="width: 100%;" type="text" name="email" placeholder="Receba Novidades por E-mail"/>
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                                    <button type="submit" id="submit" class="b_cadastro" style="width: 100%;">Cadastrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="copyrights">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                  <ul class="social-list">
+                                    @if ($configuracoes->facebook)
+                                        <li><a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook" class="icon-facebook"></a></li>
+                                    @endif
+                                    @if ($configuracoes->twitter)
+                                        <li><a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter" class="icon-twitter"></a></li>
+                                    @endif
+                                    @if ($configuracoes->instagram)
+                                        <li><a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram" class="icon-instagram"></a></li>
+                                    @endif
+                                    @if ($configuracoes->linkedin)
+                                        <li><a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin" class="icon-linkedin"></a></li>
+                                    @endif                                    
+                                </ul>  
+                            </div><!--column-->
+                            <div class="col-xs-12 col-md-6">
+                                <div class="rights">
+                                    &copy; {{$configuracoes->ano_de_inicio}} - {{date('Y')}} <strong>{{$configuracoes->nomedosite}}</strong>. - Todos os direitos reservados.
+                                    <p class="font-accent">
+                                        <span class="small text-silver-dark">Feito com <i style="color:red;" class="fa fa-heart"></i> por <a style="color:#fff;" target="_blank" href="{{env('DESENVOLVEDOR_URL')}}">{{env('DESENVOLVEDOR')}}</a></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--copyrights--> 
+                </div>
+            </div>
+        </footer>
         <!--Footer-->
     </div>
     
