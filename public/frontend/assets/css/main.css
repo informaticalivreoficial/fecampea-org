@@ -1835,7 +1835,6 @@ Page Structure
 }
 .pageContentArea .sidebar:after,.pageContentArea main:after{
     background: inherit;
-    height: 500%;
     width: 100%;
     content: "";
     position: absolute;

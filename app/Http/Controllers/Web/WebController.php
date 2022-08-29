@@ -13,6 +13,7 @@ use App\Models\{
     CatPost,
     Estados,
     Newsletter,
+    Parceiro,
     Slide,
     User
 };
@@ -133,6 +134,36 @@ class WebController extends Controller
             'post' => $post,
             'postsMais' => $postsMais,
             'categorias' => $categorias
+        ]);
+    }
+
+    public function noticia($slug)
+    {
+        $post = Post::where('slug', $slug)->where('tipo', 'noticia')->postson()->first();
+
+        $parceiros = Parceiro::orderBy('views', 'DESC')->available()->limit(6)->get();
+        
+        $postsMais = Post::orderBy('views', 'DESC')
+            ->where('id', '!=', $post->id)
+            ->where('tipo', 'noticia')
+            ->limit(6)
+            ->postson()
+            ->get();        
+        
+        $post->views = $post->views + 1;
+        $post->save();        
+        
+        $head = $this->seo->render($post->titulo ?? 'Informática Livre',
+            $post->titulo,
+            route('web.noticia', ['slug' => $post->slug]),
+            $post->cover() ?? $this->configService->getMetaImg()
+        );
+
+        return view('web.blog.artigo', [
+            'head' => $head,
+            'post' => $post,
+            'parceiros' => $parceiros,
+            'postsMais' => $postsMais
         ]);
     }
 

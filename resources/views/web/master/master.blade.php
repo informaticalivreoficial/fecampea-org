@@ -39,10 +39,6 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{$configuracoes->getfaveicon()}}" type="image/x-icon" />
 
-    <link rel="stylesheet" href="{{url('frontend/assets/js/jsSocials/jssocials.css')}}" />
-    <link rel="stylesheet" href="{{url('frontend/assets/js/jsSocials/jssocials-theme-flat.css')}}" />
-    <link rel="stylesheet" href="{{url('frontend/assets/js/shadowbox/shadowbox.css')}}"/> 
-
     @hasSection('css')
         @yield('css')
     @endif
@@ -167,17 +163,9 @@
     <script src="{{url('frontend/assets/js/main.js')}}"></script>
     <script src="{{url('frontend/assets/js/bootstrap.js')}}"></script>
 
-    <script src="{{url('frontend/assets/js/jsSocials/jssocials.min.js')}}"></script>
-
-    <script src="{{url('frontend/assets/js/shadowbox/shadowbox.js')}}"></script>       
-    <script type="text/javascript">
-        Shadowbox.init({
-            language: 'pt',
-            players: ['img', 'html', 'iframe', 'qt', 'swf', 'flv'],
-        });
-    </script>
-
-    {{-- require(REQUIRE_PATCH . '/include/funcoes.inc.php'); --}}
+    @hasSection('js')
+        @yield('js')
+    @endif
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J7EYSK2TCK"></script>

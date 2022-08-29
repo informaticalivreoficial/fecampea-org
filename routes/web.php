@@ -44,8 +44,8 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
     //****************************** Parceiros *********************************************/
     Route::get('/sendEmailParceiro', [SendEmailController::class, 'sendEmailParceiro'])->name('sendEmailParceiro');
-    Route::get('/partner/{slug}', [WebController::class, 'parceiro'])->name('parceiro');
-    Route::get('/partners', [WebController::class, 'parceiros'])->name('parceiros');
+    Route::get('/parceiro/{slug}', [WebController::class, 'parceiro'])->name('parceiro');
+    Route::get('/parceiros', [WebController::class, 'parceiros'])->name('parceiros');
 
 });
 
