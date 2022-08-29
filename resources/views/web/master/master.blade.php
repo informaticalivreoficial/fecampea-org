@@ -86,20 +86,7 @@
             </nav>                  
         </header> 
         <!-- Header -->
-
-        <div class="after-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">                       
-                        <form class="search-form" action="" method="post">
-                            <input type="text" name="s"/>
-                            <button type="submit"><i class="icon-search"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
         @yield('content')
         
         <!--Footer-->
