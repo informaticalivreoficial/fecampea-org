@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\URL;
+use Goutte\Client;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,11 @@ class AppServiceProvider extends ServiceProvider
                         ->get();
         View()->share('catnoticias', $catnoticias);
 
+        $crowlerVersiculo = new Client();
+        $url  = 'https://www.bibliaon.com/versiculo_do_dia/';
+        $versiculo = $crowlerVersiculo->request('GET', $url);
+        View()->share('versiculo', $versiculo->filter('.v_dia .color-box p')->text());
+        
         Paginator::useBootstrap();
     }
 }

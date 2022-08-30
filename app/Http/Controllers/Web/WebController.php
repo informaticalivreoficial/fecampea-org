@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\Web\Atendimento;
 use App\Mail\Web\AtendimentoRetorno;
 use Illuminate\Support\Facades\Storage;
+
 use App\Models\{
     Post,
     CatPost,
@@ -29,14 +30,14 @@ class WebController extends Controller
     public function __construct(ConfigService $configService)
     {
         $this->configService = $configService;
-        $this->seo = new Seo();
+        $this->seo = new Seo();        
     }
 
     public function home()
     {
         $noticiasMain = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
                         ->postson()
-                        ->limit(5)
+                        ->limit(6)
                         ->get();
         $noticiasSidebar = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
                         ->postson()

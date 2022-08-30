@@ -100,13 +100,15 @@
         <footer>
             <div class="container">
                 <div class="footer_inner">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-lg-12">                	
-                            <div class="widget widget_text">
-                                echo '"'.$versiculo['versiculo'].'"  <br><strong>'.$versiculo['referencia'].'</strong>';
-                            </div>
-                        </div>                
-                    </div><!--row-->
+                    @if (!empty($versiculo))
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-lg-12">                	
+                                <div class="widget widget_text">
+                                    {{$versiculo}}
+                                </div>
+                            </div>                
+                        </div>
+                    @endif
                                 
                     <div class="widget widget_newsletter">                
                         <form action="" method="post" class="form_newsletter j_formNewsletter">                    
