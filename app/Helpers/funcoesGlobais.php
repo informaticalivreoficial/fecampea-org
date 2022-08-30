@@ -1,17 +1,23 @@
 <?php
 
 
-// Pega o Link do iframe google maps
-// function getLinkGoogleMaps($link)
-// {
-//     if(empty($link)){
-//         return null;
-//     }
-// 	$src = str_replace('<iframe src="', '', $link);
-// 	$src1 = str_replace('" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>', '', $src);
-	
-//     return $src1;
-// }
+/**
+ * <b>Limita os Palavras:</b> Limita a quantidade de palavras a serem exibidas em uma string!
+ * @param STRING $String = Uma string qualquer
+ * @return INT = $Limite = String limitada pelo $Limite
+ */
+function Words($String, $Limite, $Pointer = null) {
+    $content = strip_tags(trim($String));
+    $Format = (int) $Limite;
+
+    $ArrWords = explode(' ', $content);
+    $NumWords = count($ArrWords);
+    $NewWords = implode(' ', array_slice($ArrWords, 0, $Format));
+
+    $Pointer = (empty($Pointer) ? '...' : ' ' . $Pointer );
+    $Result = ( $Format < $NumWords ? $NewWords . $Pointer : $content );
+    return $Result;
+}
 
 
 

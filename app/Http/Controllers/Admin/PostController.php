@@ -33,7 +33,10 @@ class PostController extends Controller
             $tituloPagina = 'Páginas';
         }
 
-        $posts = Post::where('tipo', $tipo)->orderBy('status', 'ASC')->orderBy('created_at', 'DESC')->paginate(25);
+        $posts = Post::where('tipo', $tipo)
+                ->orderBy('status', 'ASC')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(35);
         
         return view('admin.posts.index', [
             'posts' => $posts,

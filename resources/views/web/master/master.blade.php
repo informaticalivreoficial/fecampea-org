@@ -74,8 +74,19 @@
                 <div id="dl-menu" class="xv-menuwrapper responsive-menu">
                     <button class="dl-trigger">Abrir Menu</button>                    
                     <ul class="dl-menu clearfix">
-                        <li><a href="{{route('web.blog.artigos')}}">Blog</a></li> 
-                        <li><a href="{{route('web.atendimento')}}">Atendimento</a></li>       
+                        <li><a href="{{route('web.blog.artigos')}}">Blog</a></li>
+                        @if (!empty($catnoticias) && $catnoticias->count() > 0 )
+							<li class="parent"> <a >Modalidades &nbsp;<img src="{{url('frontend/assets/images/seta.png')}}" /></a>
+								<ul class="lg-submenu">
+									@foreach ($catnoticias as $catn)
+										@if ($catn->countposts() >= 1)
+											<li> <a href="{{route('web.noticia.categoria', [ 'slug' => $catn->slug ])}}"><i class="fa fa-angle-double-right"></i> {{$catn->titulo}}</a></li>
+										@endif										
+									@endforeach																	
+								</ul>
+							</li>
+						@endif 
+                        <li><a href="{{route('web.atendimento')}}">Fale Conosco</a></li>       
                     </ul>
                 </div>
               </div>

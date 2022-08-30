@@ -86,8 +86,8 @@ $config1 = [
                         <li class="nav-item">
                             <a class="nav-link" id="custom-tabs-four-seo-tab" data-toggle="pill" href="#custom-tabs-four-seo" role="tab" aria-controls="custom-tabs-four-mapas" aria-selected="false">SEO</a>
                         </li>
-                        <li class="nav-item bg-teal">
-                            <a class="nav-link j_modal_suporte" data-id="{{$config->id}}" data-toggle="modal" data-target="#modal-suporte" href="javascript:void(0)" aria-selected="false">SUPORTE</a>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-four-layout-tab" data-toggle="pill" href="#custom-tabs-four-layout" role="tab" aria-controls="custom-tabs-four-layout" aria-selected="false">TEMA</a>
                         </li>
                     </ul>
                 </div>
@@ -490,7 +490,29 @@ $config1 = [
                                     </div>
                                 </div>
                             </div> 
-                        </div>                                
+                        </div> 
+                        
+                        <div class="tab-pane fade" id="custom-tabs-four-layout" role="tabpanel" aria-labelledby="custom-tabs-four-layout-tab">
+                            <div class="row mb-2 text-muted">                                        
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <h5><b>Tema do Site</b></h5>  
+                                        <p>Aqui você pode escolher o Tema do site.</p>                                          
+                                    </div>
+                                </div>
+                                @if (!empty($templates) && $templates->count() > 0)
+                                    @foreach ($templates as $template)                                        
+                                        <div class="col-12 col-md-6 col-sm-6 col-lg-3">                                             
+                                            <div class="form-check my-2">
+                                                <input class="form-check-input" type="radio" name="template" value="{{$template->name}}" {{(old('template') == '1' ? $template->name : ($config->template == $template->name ? 'checked' : ''))}}>
+                                                <label class="form-check-label">{{$template->name}}</label>
+                                            </div>                                            
+                                            <img src="{{$template->getimagem()}}" alt="{{$template->name}}">                                            
+                                        </div>                                                                                
+                                    @endforeach
+                                @endif                                                                                                       
+                            </div> 
+                        </div>
                     </div>
                 </div>
                 <!-- /.card -->

@@ -126,7 +126,7 @@
             position: relative;
             float: left;
             padding: 6px 12px;
-            width: 40px;
+            width: 50px;
             height: 40px;
             text-align: center;
             line-height: 25px;

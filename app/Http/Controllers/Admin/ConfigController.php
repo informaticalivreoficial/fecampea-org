@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Support\Cropper;
 use App\Models\Estados;
 use App\Models\Cidades;
+use App\Models\Template;
 use Carbon\Carbon;
 
 class ConfigController extends Controller
@@ -21,6 +22,10 @@ class ConfigController extends Controller
         $config = Configuracoes::where('id', '1')->first();
         $estados = Estados::orderBy('estado_nome', 'ASC')->get();
         $cidades = Cidades::orderBy('cidade_nome', 'ASC')->get();
+
+        $templates = Template::orderBy('created_at', 'DESC')
+                ->available()
+                ->get();
 
         $sitemap = Carbon::createFromFormat('Y-m-d', $config->sitemap_data);
         $datahoje = Carbon::now();
@@ -35,6 +40,7 @@ class ConfigController extends Controller
             'estados' => $estados,
             'cidades' => $cidades,
             'diferenca' => $diferenca,
+            'templates' => $templates,
             'feeddatadiferenca' => $feeddatadiferenca
         ]);
     }
