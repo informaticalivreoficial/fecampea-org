@@ -75,7 +75,7 @@
             @endif
         </div>
         <div class="card-footer paginacao">  
-            {{ $posts->links() }}
+            {{ $posts->onEachSide(2)->links() }}
         </div>
     </div>
     <!-- /.card -->   

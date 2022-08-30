@@ -36,7 +36,7 @@ class PostController extends Controller
         $posts = Post::where('tipo', $tipo)
                 ->orderBy('status', 'ASC')
                 ->orderBy('created_at', 'DESC')
-                ->paginate(35);
+                ->paginate(25);
         
         return view('admin.posts.index', [
             'posts' => $posts,
