@@ -69,6 +69,11 @@ class Post extends Model
         return $this->hasMany(PostGb::class, 'post', 'id')->orderBy('cover', 'ASC');
     }
 
+    public function countimages()
+    {
+        return $this->hasMany(PostGb::class, 'post', 'id')->count();
+    }
+
     /**
      * Accerssors and Mutators
      */

@@ -90,7 +90,7 @@ class CatPostController extends Controller
         $categoria = CatPost::where('id', $request->id)->first();
         $subcategoria = CatPost::where('id_pai', $request->id)->first();
         $post = Post::where('categoria', $request->id)->first();
-        $nome = getPrimeiroNome(Auth::user()->name);
+        $nome = \App\Helpers\Renato::getPrimeiroNome(Auth::user()->name);
 
         $secao = ($categoria->tipo == 'artigo' ? 'artigos' : 
                  ($categoria->tipo == 'noticia' ? 'notícias' : 

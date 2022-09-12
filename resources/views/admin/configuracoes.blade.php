@@ -537,9 +537,9 @@ $config1 = [
                 </button>
             </div>
             <div class="modal-body text-center">  
-                <p>Este QrCode direciona para: {{$config->dominio}}</p>
+                <p>Este QrCode direciona para: <br> {{$config->dominio ?? 'https://informaticalivre.com.br'}}</p>
                 @php 
-                    $qrcode = QRCode::url($config->dominio)
+                    $qrcode = QRCode::url($config->dominio ?? 'https://informaticalivre.com.br')
                             ->setSize(8)
                             ->setMargin(2)
                             ->svg();
@@ -647,36 +647,7 @@ $config1 = [
             return false;
         });
 
-        // FORM DE SUPORTE NO ADMIN
-        $('.btn_suporte').submit(function(){ 
-            var dados = $(this).serialize();                
-            $.ajax({
-                type: 'GET',
-                dataType: 'JSON',
-                url: "{{ route('email.suporte') }}",
-                data: dados,
-                beforeSend: function(){
-                    $('.b_nome').html("Carregando...");
-                    $('.alert').fadeOut(500, function(){
-                        $(this).remove();
-                    });
-                },
-                complete: function(){
-                    $('.b_nome').html("<i class=\"nav-icon fas fa-check mr-2\"></i> Enviar Solicitação");               
-                },
-                success:function(data) {
-                    if(data.error){
-                        $('.j_param_data').html('<div class="alert alert-danger alert-dismissible">'+ data.error +'</div>');
-                    }else{
-                        $('input[class!="noclear"]').val('');
-                        $('.form_hide').fadeOut(500);
-                        $('.j_param_data').html('<div class="alert alert-success alert-dismissible">'+ data.success +'</div>');
-                    }
-                }
-            });
-            return false;
-        });
-        
+                
         function readImageMetaImagem() {
             if (this.files && this.files[0]) {
                 var file = new FileReader();

@@ -136,6 +136,47 @@
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
 
+    <script>
+	$(function () { 
+    
+	    $.ajaxSetup({
+	        headers: {
+	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	        }
+	    });
+    
+	    // FORM DE SUPORTE NO ADMIN
+	    $('.btn_suporte').submit(function(){ 
+	        var dados = $(this).serialize();                
+	        $.ajax({
+	            type: 'GET',
+	            dataType: 'JSON',
+	            url: "{{ route('email.suporte') }}",
+	            data: dados,
+	            beforeSend: function(){
+	                $('.b_nome').html("Carregando...");
+	                $('.alert').fadeOut(500, function(){
+	                    $(this).remove();
+	                });
+	            },
+	            complete: function(){
+	                $('.b_nome').html("<i class=\"nav-icon fas fa-check mr-2\"></i> Enviar Solicitação");               
+	            },
+	            success:function(data) {
+	                if(data.error){
+	                    $('.j_param_data').html('<div class="alert alert-danger alert-dismissible">'+ data.error +'</div>');
+	                }else{
+	                    $('input[class!="noclear"]').val('');
+	                    $('.form_hide').fadeOut(500);
+	                    $('.j_param_data').html('<div class="alert alert-success alert-dismissible">'+ data.success +'</div>');
+	                }
+	            }
+	        });
+	        return false;
+	    });            
+	});
+    </script>
+
 </body>
 
 </html>
