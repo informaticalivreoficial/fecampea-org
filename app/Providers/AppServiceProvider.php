@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\CatPost;
+use App\Models\Post;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -42,6 +43,12 @@ class AppServiceProvider extends ServiceProvider
                         ->whereNotNull('id_pai')
                         ->get();
         View()->share('catnoticias', $catnoticias);
+
+        //Páginas
+        $Paginas = Post::where('tipo', 'pagina')
+                        ->postson()
+                        ->get();
+        View()->share('Paginas', $Paginas);
 
         $crowlerVersiculo = new Client();
         $url  = 'https://www.bibliaon.com/versiculo_do_dia/';

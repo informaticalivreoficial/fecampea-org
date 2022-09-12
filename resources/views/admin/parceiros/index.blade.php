@@ -118,7 +118,14 @@
                         @if($parceiro->whatsapp != '')
                             <a target="_blank" href="{{\App\Helpers\WhatsApp::getNumZap($parceiro->whatsapp)}}" class="btn btn-xs btn-success text-white"><i class="fab fa-whatsapp"></i></a>
                         @endif 
-                        <a href="{{route('email.send',['id' => $parceiro->id, 'parametro' => 'parceiro'] )}}" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></a>
+                        
+                        <form class="btn btn-xs" action="{{route('email.send')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="nome" value="{{ $parceiro->name }}">
+                            <input type="hidden" name="email" value="{{ $parceiro->email }}">
+                            <button title="Enviar Email" type="submit" class="btn btn-xs text-white bg-teal"><i class="fas fa-envelope"></i></button>
+                        </form>
+                        
                         @if (!empty($parceiro->link))
                         <a target="_blank" href="{{$parceiro->link}}" class="btn btn-xs btn-default"><i class="fas fa-link"></i></a>
                         @endif                   

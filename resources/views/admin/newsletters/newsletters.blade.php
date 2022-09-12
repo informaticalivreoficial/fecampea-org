@@ -87,9 +87,9 @@
             <form id="frm" action="" method="post">            
             @csrf
             @method('DELETE')
-            <input id="id_lista" name="lista_id" type="hidden" value=""/>
+            <input id="id_email" name="email_id" type="hidden" value=""/>
                 <div class="modal-header">
-                    <h4 class="modal-title">Remover Lista!</h4>
+                    <h4 class="modal-title">Remover Email!</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -130,21 +130,21 @@
            
             //FUNÇÃO PARA EXCLUIR
             $('.j_modal_btn').click(function() {
-                var lista_id = $(this).data('id');                
+                var email_id = $(this).data('id');                
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: "{{ route('listas.delete') }}",
+                    url: "{{ route('listas.newsletter.delete') }}",
                     data: {
-                       'id': lista_id
+                       'id': email_id
                     },
                     success:function(data) {
                         if(data.error){
                             $('.j_param_data').html(data.error);
-                            $('#id_lista').val(data.id);
-                            $('#frm').prop('action','{{ route('listas.deleteon') }}');
+                            $('#id_email').val(data.id);
+                            $('#frm').prop('action','{{ route('listas.newsletter.deleteon') }}');
                         }else{
-                            $('#frm').prop('action','{{ route('listas.deleteon') }}');
+                            $('#frm').prop('action','{{ route('listas.newsletter.deleteon') }}');
                         }
                     }
                 });

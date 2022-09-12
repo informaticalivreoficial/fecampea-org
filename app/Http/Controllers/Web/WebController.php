@@ -35,17 +35,17 @@ class WebController extends Controller
 
     public function home()
     {
-        $noticiasMain = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
+        $noticiasMain = Post::orderBy('created_at', 'DESC')->where('tipo', 'artigo')
                         ->postson()
                         ->limit(6)
                         ->get();
-        $noticiasSidebar = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')
+        $noticiasSidebar = Post::orderBy('created_at', 'DESC')->where('tipo', 'artigo')
                         ->postson()
-                        ->skip(5)
+                        ->skip(6)
                         ->take(7)
                         ->get();
         $noticiasVistos = Post::where('created_at', '>', Carbon::now()->subMonths(6))
-                        ->where('tipo', 'noticia')
+                        ->where('tipo', 'artigo')
                         ->postson()
                         ->limit(3)
                         ->get();        
@@ -93,7 +93,7 @@ class WebController extends Controller
 
     public function artigos()
     {
-        $posts = Post::orderBy('created_at', 'DESC')->where('tipo', '=', 'artigo')->postson()->paginate(10);
+        $posts = Post::orderBy('created_at', 'DESC')->where('tipo', '=', 'artigo')->postson()->paginate(24);
         $categorias = CatPost::orderBy('titulo', 'ASC')->where('tipo', 'artigo')->get();
         $head = $this->seo->render('Blog - ' . $this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             'Blog - ' . $this->configService->getConfig()->nomedosite,

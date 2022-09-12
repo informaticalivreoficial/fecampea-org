@@ -247,10 +247,6 @@ return [
             'icon' => 'fas fa-fw fa-users',
             'submenu' => [
                 [
-                    'text' => 'Clientes',
-                    'url'  => 'admin/usuarios',
-                ],
-                [
                     'text' => 'Time',
                     'url'  => 'admin/usuarios/time',
                 ],

@@ -106,7 +106,7 @@ class NewsletterController extends Controller
     public function newsletters($categoria)
     {
         $lista = NewsletterCat::where('id', $categoria)->first();
-        $newsletters = Newsletter::orderBy('created_at', 'Desc')->where('categoria', $categoria)->paginate(35);
+        $newsletters = Newsletter::orderBy('created_at', 'Desc')->where('categoria', $categoria)->paginate(55);
 
         return view('admin.newsletters.newsletters',[
             'emails' => $newsletters,
@@ -156,6 +156,48 @@ class NewsletterController extends Controller
         ])->with([
             'color' => 'success', 
             'message' => 'A Inscrição de '.$newsletterUpdate->nome.' foi alualizada com sucesso!'
+        ]);
+    }
+
+    public function emailSetStatus(Request $request)
+    {        
+        $email = Newsletter::find($request->id);
+        $email->status = $request->status;
+        $email->autorizacao = $request->status;
+        $email->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function emailDelete(Request $request)
+    {
+        $email = Newsletter::where('id', $request->id)->first();
+        $nome = \App\Helpers\Renato::getPrimeiroNome(auth()->user()->name);
+        
+        if(!empty($email)){
+            $json = "<b>$nome</b> você tem certeza que deseja excluir este Email da Lista?";
+            return response()->json(['error' => $json,'id' => $email->id]);           
+        }else{
+            return response()->json(['success' => true]);
+        }
+    }
+    
+    public function emailDeleteon(Request $request)
+    {         
+        $email = Newsletter::where('id', $request->email_id)->first();  
+        $emailR = $email->email;
+
+        $lista = NewsletterCat::where('id', $email->categoria)->first();
+        
+        if(!empty($email)){
+            $email->delete();
+        }        
+        
+        return Redirect::route('lista.newsletters',[
+            'categoria' => $lista->id
+        ])->with([
+            'color' => 'success', 
+            'message' => 'O email '.$emailR.' foi removido com sucesso da lista!'
         ]);
     }
 

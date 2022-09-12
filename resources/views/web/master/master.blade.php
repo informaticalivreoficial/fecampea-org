@@ -75,6 +75,15 @@
                     <button class="dl-trigger">Abrir Menu</button>                    
                     <ul class="dl-menu clearfix">
                         <li><a href="{{route('web.blog.artigos')}}">Blog</a></li>
+                        @if (!empty($Paginas) && $Paginas->count() > 0 )
+							<li class="parent"> <a >Páginas &nbsp;<img src="{{url('frontend/assets/images/seta.png')}}" /></a>
+								<ul class="lg-submenu">
+									@foreach ($Paginas as $page)										
+                                        <li> <a href="{{route('web.pagina', [ 'slug' => $page->slug ])}}"><i class="fa fa-angle-double-right"></i> {{$page->titulo}}</a></li>						
+									@endforeach																	
+								</ul>
+							</li>
+						@endif 
                         @if (!empty($catnoticias) && $catnoticias->count() > 0 )
 							<li class="parent"> <a >Modalidades &nbsp;<img src="{{url('frontend/assets/images/seta.png')}}" /></a>
 								<ul class="lg-submenu">
@@ -111,14 +120,16 @@
                     @endif
                                 
                     <div class="widget widget_newsletter">                
-                        <form action="" method="post" class="form_newsletter j_formNewsletter">                    
+                        <form action="" method="post" class="form_newsletter j_submitnewsletter">                    
                             <div class="row">
                                 <div class="col-md-12" style="padding: 0px;">
-                                    <div class="alertas"></div> 
+                                    @csrf                                
+                                    <div id="js-newsletter-result"></div>
                                     <!-- HONEYPOT -->
                                     <input type="hidden" class="noclear" name="bairro" value="" />
                                     <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
-                                    <input class="noclear" type="hidden" name="action" value="newsletter" />
+                                    <input type="hidden" class="noclear" name="status" value="1" />
+                                    <input type="hidden" class="noclear" name="nome" value="#Cadastrado pelo Site" />  
                                 </div>
                             </div>
                             <div class="row form_hide">
@@ -126,7 +137,7 @@
                                     <input style="width: 100%;" type="text" name="email" placeholder="Receba Novidades por E-mail"/>
                                 </div>
                                 <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
-                                    <button type="submit" id="submit" class="b_cadastro" style="width: 100%;">Cadastrar</button>
+                                    <button type="submit" id="js-subscribe-btn" class="b_cadastro" style="width: 100%;">Cadastrar</button>
                                 </div>
                             </div>
                         </form>
@@ -175,6 +186,57 @@
     <script src="{{url('frontend/assets/js/jquery.inview.js')}}"></script>
     <script src="{{url('frontend/assets/js/main.js')}}"></script>
     <script src="{{url('frontend/assets/js/bootstrap.js')}}"></script>
+
+    <script>
+        $(function () {
+    
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+    
+            // Seletor, Evento/efeitos, CallBack, Ação
+            $('.j_submitnewsletter').submit(function (){
+                var form = $(this);
+                var dataString = $(form).serialize();
+    
+                $.ajax({
+                    url: "{{ route('web.sendNewsletter') }}",
+                    data: dataString,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    beforeSend: function(){
+                        form.find("#js-subscribe-btn").attr("disabled", true);
+                        form.find('#js-subscribe-btn').html("Carregando...");                
+                        form.find('.alert').fadeOut(500, function(){
+                            $(this).remove();
+                        });
+                    },
+                    success: function(response){
+                        $('html, body').animate({scrollTop:$('#js-newsletter-result').offset().top-40}, 'slow');
+                        if(response.error){
+                            form.find('#js-newsletter-result').html('<div class="alert alert-danger error-msg">'+ response.error +'</div>');
+                            form.find('.error-msg').fadeIn();                    
+                        }else{
+                            form.find('#js-newsletter-result').html('<div class="alert alert-success error-msg">'+ response.sucess +'</div>');
+                            form.find('.error-msg').fadeIn();                    
+                            form.find('input[class!="noclear"]').val('');
+                            form.find('.form_hide').fadeOut(500);
+                        }
+                    },
+                    complete: function(response){
+                        form.find("#js-subscribe-btn").attr("disabled", false);
+                        form.find('#js-subscribe-btn').html("Cadastrar");                                
+                    }
+    
+                });
+    
+                return false;
+            });
+    
+        });
+    </script>
 
     @hasSection('js')
         @yield('js')

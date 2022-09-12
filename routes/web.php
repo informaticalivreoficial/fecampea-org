@@ -10,7 +10,10 @@ use App\Http\Controllers\Admin\CatPostController;
 use App\Http\Controllers\Admin\ConfigController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\ParceiroController;
+use App\Http\Controllers\Admin\SitemapController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Web\RssFeedController;
+use App\Http\Controllers\Web\SendEmailController;
 use App\Http\Controllers\Web\WebController;
 
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
@@ -41,6 +44,7 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
 
     /** FEED */
     Route::get('feed', [RssFeedController::class, 'feed'])->name('feed');
+    Route::get('/politica-de-privacidade', [WebController::class, 'politica'])->name('politica');
 
     //****************************** Parceiros *********************************************/
     Route::get('/sendEmailParceiro', [SendEmailController::class, 'sendEmailParceiro'])->name('sendEmailParceiro');
@@ -64,6 +68,8 @@ Route::prefix('admin')->middleware('auth')->group( function(){
 
     Route::put('listas/email/{id}', [NewsletterController::class, 'newsletterUpdate'])->name('listas.newsletter.update');
     Route::get('listas/email/{id}/edit', [NewsletterController::class, 'newsletterEdit'])->name('listas.newsletter.edit');
+    Route::get('listas/email/delete', [NewsletterController::class, 'emailDelete'])->name('listas.newsletter.delete');
+    Route::delete('listas/email/deleteon', [NewsletterController::class, 'emailDeleteon'])->name('listas.newsletter.deleteon');
     Route::get('listas/email/cadastrar', [NewsletterController::class, 'newsletterCreate'])->name('lista.newsletter.create');
     Route::post('listas/email/store', [NewsletterController::class, 'newsletterStore'])->name('listas.newsletter.store');
     Route::get('listas/emails/categoria/{categoria}', [NewsletterController::class, 'newsletters'])->name('lista.newsletters');

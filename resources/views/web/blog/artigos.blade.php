@@ -10,7 +10,7 @@
             <div class="row"> 
                 @foreach($posts as $post)
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="padding: 3%;">
-                    <article style="min-height: 330px;">
+                    <article style="min-height: 370px;">
                         <figure>
                             <img src="{{$post->cover()}}" alt="{{$post->titulo}}">
                         </figure>

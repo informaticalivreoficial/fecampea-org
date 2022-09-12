@@ -60,6 +60,8 @@ class AdminController extends Controller
                 ->get()
                 ->sum('views');
         //Páginas
+        $paginasAvailable = Post::postson()->where('tipo', 'pagina')->count();
+        $paginasUnavailable = Post::postsoff()->where('tipo', 'pagina')->count();
         $paginasTop = Post::orderBy('views', 'DESC')
                 ->where('tipo', 'pagina')
                 ->limit(6)
@@ -104,6 +106,8 @@ class AdminController extends Controller
             'artigosTop' => $artigosTop,
             'artigostotalviews' => $totalViewsArtigos,
             //Páginas
+            'paginasAvailable' => $paginasAvailable,
+            'paginasUnavailable' => $paginasUnavailable,
             'paginasTop' => $paginasTop,
             'paginastotalviews' => $totalViewsPaginas,
             'usersAvailable' => $usersAvailable,

@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{
-    Portifolio,
-    Post
-};
+use App\Models\Post;
 
 class RssFeedController extends Controller
 {
@@ -14,12 +11,12 @@ class RssFeedController extends Controller
     {
         $posts = Post::orderBy('created_at', 'DESC')->where('tipo', 'artigo')->postson()->limit(10)->get();
         $paginas = Post::orderBy('created_at', 'DESC')->where('tipo', 'pagina')->postson()->limit(10)->get();
-        $projetos = Portifolio::orderBy('created_at', 'DESC')->available()->limit(20)->get();
-
+        $noticias = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')->postson()->limit(15)->get();
+        
         return response()->view('web.feed', [
+            'noticias' => $noticias,
             'posts' => $posts,
-            'paginas' => $paginas,
-            'projetos' => $projetos
+            'paginas' => $paginas
         ])->header('Content-Type', 'application/xml');
         
     }

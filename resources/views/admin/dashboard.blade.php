@@ -20,13 +20,13 @@
 <div class="row">
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <div class="info-box">
-            <span class="info-box-icon bg-info"><a href="{{ route('posts.noticias') }}" title="Notícias"><i class="fa far fa-pen"></i></a></span>
+            <span class="info-box-icon bg-info"><a href="{{ route('posts.paginas') }}" title="Páginas"><i class="fa far fa-pen"></i></a></span>
 
             <div class="info-box-content">
-                <span class="info-box-text"><b>Notícias</b></span>
-                <span class="info-box-text">Publicado: {{ $noticiasAvailable }}</span>
-                <span class="info-box-text">Rascunho: {{ $noticiasUnavailable }}</span>
-                <span class="info-box-text">Total: {{ $noticiasAvailable + $noticiasUnavailable }}</span>
+                <span class="info-box-text"><b>Páginas</b></span>
+                <span class="info-box-text">Publicado: {{ $paginasAvailable }}</span>
+                <span class="info-box-text">Rascunho: {{ $paginasUnavailable }}</span>
+                <span class="info-box-text">Total: {{ $paginasAvailable + $paginasUnavailable }}</span>
             </div>            
         </div>
     </div>

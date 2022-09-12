@@ -11,9 +11,9 @@
                 </header>
                 
                 <div class="pageContent">            					
-                    <form action="" method="post" autocomplete="off" class="j_formAtendimento">                
-                        <div class="alertas"></div>
-                        <input class="noclear" type="hidden" name="action" value="atendimento" />
+                    <form action="" method="post" autocomplete="off" class="j_formsubmit">                
+                        @csrf
+                        <div id="js-contact-result"></div>
                         <!-- HONEYPOT -->
                         <input type="hidden" class="noclear" name="bairro" value="" />
                         <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
@@ -35,12 +35,66 @@
                             </div>
                          </div>  
                         
-                        <p class="text-center form_hide"><button class="btn btn-default b_cadastro" type="submit" name="submit">Enviar Agora</button></p>
+                        <p class="text-center form_hide">
+                            <button class="btn btn-default" id="js-contact-btn" type="submit" name="submit">Enviar Agora</button>
+                        </p>
                         
                     </form>
                 </div>
-            </main><!--main content of current page-->
-        </div><!--pageContentArea-->
-    </div><!--container-->
-    </div><!--container-->
+            </main>
+        </div>
+    </div>
+    </div>
+@endsection
+
+@section('js')
+<script>
+    $(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('.j_formsubmit').submit(function (){
+            var form = $(this);
+            var dataString = $(form).serialize();
+
+            $.ajax({
+                url: "{{ route('web.sendEmail') }}",
+                data: dataString,
+                type: 'GET',
+                dataType: 'JSON',
+                beforeSend: function(){
+                    form.find("#js-contact-btn").attr("disabled", true);
+                    form.find('#js-contact-btn').html("Carregando...");                
+                    form.find('.alert').fadeOut(500, function(){
+                        $(this).remove();
+                    });
+                },
+                success: function(resposta){
+                    $('html, body').animate({scrollTop:$('#js-contact-result').offset().top-140}, 'slow');
+                    if(resposta.error){
+                        form.find('#js-contact-result').html('<div class="alert alert-danger error-msg">'+ resposta.error +'</div>');
+                        form.find('.error-msg').fadeIn();                    
+                    }else{
+                        form.find('#js-contact-result').html('<div class="alert alert-success error-msg">'+ resposta.sucess +'</div>');
+                        form.find('.error-msg').fadeIn();                    
+                        form.find('input[class!="noclear"]').val('');
+                        form.find('textarea[class!="noclear"]').val('');
+                        form.find('.form_hide').fadeOut(500);
+                    }
+                },
+                complete: function(resposta){
+                    form.find("#js-contact-btn").attr("disabled", false);
+                    form.find('#js-contact-btn').html("Enviar Agora");                                
+                }
+            });
+
+            return false;
+        });
+
+    });
+</script>   
 @endsection
