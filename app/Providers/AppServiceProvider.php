@@ -30,31 +30,31 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        URL::forceScheme('https');
-        Schema::defaultStringLength(191);
-        Blade::aliasComponent('admin.components.message', 'message');
+        // URL::forceScheme('https');
+        // Schema::defaultStringLength(191);
+        // Blade::aliasComponent('admin.components.message', 'message');
 
-        $configuracoes = \App\Models\Configuracoes::find(1); 
-        View()->share('configuracoes', $configuracoes);
+        // $configuracoes = \App\Models\Configuracoes::find(1); 
+        // View()->share('configuracoes', $configuracoes);
 
-        //Categorias de Notícias
-        $catnoticias = CatPost::where('tipo', 'noticia')
-                        ->available()
-                        ->whereNotNull('id_pai')
-                        ->get();
-        View()->share('catnoticias', $catnoticias);
+        // //Categorias de Notícias
+        // $catnoticias = CatPost::where('tipo', 'noticia')
+        //                 ->available()
+        //                 ->whereNotNull('id_pai')
+        //                 ->get();
+        // View()->share('catnoticias', $catnoticias);
 
-        //Páginas
-        $Paginas = Post::where('tipo', 'pagina')
-                        ->postson()
-                        ->get();
-        View()->share('Paginas', $Paginas);
+        // //Páginas
+        // $Paginas = Post::where('tipo', 'pagina')
+        //                 ->postson()
+        //                 ->get();
+        // View()->share('Paginas', $Paginas);
 
-        $crowlerVersiculo = new Client();
-        $url  = 'https://www.bibliaon.com/versiculo_do_dia/';
-        $versiculo = $crowlerVersiculo->request('GET', $url);
-        View()->share('versiculo', $versiculo->filter('.v_dia .color-box p')->text());
+        // $crowlerVersiculo = new Client();
+        // $url  = 'https://www.bibliaon.com/versiculo_do_dia/';
+        // $versiculo = $crowlerVersiculo->request('GET', $url);
+        // View()->share('versiculo', $versiculo->filter('.v_dia .color-box p')->text());
         
-        Paginator::useBootstrap();
+        // Paginator::useBootstrap();
     }
 }
