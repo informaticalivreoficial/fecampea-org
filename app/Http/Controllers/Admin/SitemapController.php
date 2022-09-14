@@ -28,7 +28,7 @@ class SitemapController extends Controller
         $configupdate->sitemap_data = date('Y-m-d');
         $configupdate->sitemap = url('/' . $configupdate->slug . '_sitemap.xml');
         $configupdate->save();
-        dd(config('filesystems.disks.s3.url'));
+        
         Sitemap::create()->add(Url::create('/atendimento')
             ->setLastModificationDate(Carbon::yesterday())
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
