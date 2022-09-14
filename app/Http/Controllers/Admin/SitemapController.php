@@ -28,7 +28,7 @@ class SitemapController extends Controller
         $configupdate->sitemap_data = date('Y-m-d');
         $configupdate->sitemap = url('/' . $configupdate->slug . '_sitemap.xml');
         $configupdate->save();
-        
+                
         Sitemap::create()->add(Url::create('/atendimento')
             ->setLastModificationDate(Carbon::yesterday())
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
@@ -38,7 +38,7 @@ class SitemapController extends Controller
             ->add('/paginas')
             ->add('/noticias')
             ->add('/politica-de-privacidade')
-            ->writeToDisk('s4', Str::slug($configupdate->nomedosite) . '_sitemap.xml');
+            ->writeToDisk('s3', Str::slug($configupdate->nomedosite) . '_sitemap.xml');
         
         return response()->json(['success' => true]);
     }
