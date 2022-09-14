@@ -468,7 +468,7 @@ $config1 = [
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <h5><b>Sitemap</b></h5>  
-                                        <p>Caminho: <a target="_blank" href="{{url(asset(\Str::slug($config->nomedosite)))}}_sitemap.xml">{{url(asset(\Str::slug($config->nomedosite)))}}_sitemap.xml</a></p>                                          
+                                        <p>Caminho: <a target="_blank" href="{{$config->sitemap}}">{{url(asset(\Str::slug($config->nomedosite)))}}_sitemap.xml</a></p>                                          
                                         <h5><b>Feed/RSS</b></h5>  
                                         <p>Caminho: <a target="_blank" href="{{route('web.feed')}}">{{route('web.feed')}}</a></p>                                          
                                     </div>
