@@ -639,7 +639,7 @@ $config1 = [
             $.ajax({
                 type: 'GET',
                 dataType: 'JSON',
-                url: "{{ route('admin.gerarxml') }}",
+                url: "{{ route('gerarxml') }}",
                 data: {
                    'id': conf_id
                 },

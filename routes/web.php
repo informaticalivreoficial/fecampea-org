@@ -98,7 +98,7 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('parceiros', [ParceiroController::class, 'index'])->name('parceiros.index');
 
     //******************** Sitemap *********************************************/
-    Route::get('gerarxml', [SitemapController::class, 'gerarxml'])->name('admin.gerarxml');
+    Route::get('gerarxml', [SitemapController::class, 'gerarxml'])->name('gerarxml');
 
     //******************** Configurações ***************************************/
     Route::match(['post', 'get'], 'configuracoes/fetchCity', [ConfigController::class, 'fetchCity'])->name('configuracoes.fetchCity');

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\ConfigService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use Spatie\Sitemap\SitemapGenerator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
@@ -22,11 +24,11 @@ class SitemapController extends Controller
 
     public function gerarxml(Request $request)
     {
-        $configupdate = $this->tenant->tenant();
-        $configupdate->sitemap_data = date('Y-m-d');
-        $configupdate->sitemap = url('/' . $configupdate->slug . '_sitemap.xml');
-        $configupdate->save();
-
+        $configupdate = $this->configService->getConfig();
+        //$configupdate->sitemap_data = date('Y-m-d');
+        //$configupdate->sitemap = url('/' . $configupdate->slug . '_sitemap.xml');
+        //$configupdate->save();
+        //dd(config('filesystems.disks.s3.url'));
         Sitemap::create()->add(Url::create('/atendimento')
             ->setLastModificationDate(Carbon::yesterday())
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
@@ -36,7 +38,7 @@ class SitemapController extends Controller
             ->add('/paginas')
             ->add('/noticias')
             ->add('/politica-de-privacidade')
-            ->writeToFile($configupdate->slug . '_sitemap.xml');
+            ->writeToDisk('s4', Str::slug($configupdate->nomedosite) . '_sitemap.xml');
         
         return response()->json(['success' => true]);
     }
