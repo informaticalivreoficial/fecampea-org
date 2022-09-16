@@ -24,10 +24,15 @@ class SitemapController extends Controller
 
     public function gerarxml(Request $request)
     {
+        
         $configupdate = $this->configService->getConfig();
         $configupdate->sitemap_data = date('Y-m-d');
         $configupdate->sitemap = Storage::url(Str::slug($configupdate->nomedosite) . '_sitemap.xml');
         $configupdate->save();
+
+        if(Storage::disk()->exists(Str::slug($configupdate->nomedosite) . '_sitemap.xml')){
+            Storage::delete(Str::slug($configupdate->nomedosite) . '_sitemap.xml');
+        }
 
         Sitemap::create()->add(Url::create('/atendimento')
             ->setLastModificationDate(Carbon::yesterday())
