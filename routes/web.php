@@ -45,6 +45,7 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     /** FEED */
     Route::get('feed', [RssFeedController::class, 'feed'])->name('feed');
     Route::get('/politica-de-privacidade', [WebController::class, 'politica'])->name('politica');
+    Route::get('/sitemap', [WebController::class, 'sitemap'])->name('sitemap');
 
     //****************************** Parceiros *********************************************/
     Route::get('/sendEmailParceiro', [SendEmailController::class, 'sendEmailParceiro'])->name('sendEmailParceiro');

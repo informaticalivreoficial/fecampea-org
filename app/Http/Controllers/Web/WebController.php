@@ -240,8 +240,7 @@ class WebController extends Controller
             'post' => $post,
             'clientesCount' => $clientesCount
         ]);
-    }
-    
+    }    
     
     public function atendimento()
     {
@@ -256,31 +255,11 @@ class WebController extends Controller
         ]);
     }
 
+    public function sitemap()
+    {
+        $url = $this->configService->getConfig()->sitemap;
+        $data = file_get_contents($url);
+        return response($data, 200, ['Content-Type' => 'application/xml']);
+    }
     
-
-    
-
-    // public function sendNewsletter(Request $request)
-    // {
-    //     if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
-    //         $json = "O campo <strong>Email</strong> está vazio ou não tem um formato válido!";
-    //         return response()->json(['error' => $json]);
-    //     }
-    //     if(!empty($request->bairro) || !empty($request->cidade)){
-    //         $json = "<strong>ERRO</strong> Você está praticando SPAM!"; 
-    //         return response()->json(['error' => $json]);
-    //     }else{   
-    //         $validaNews = Newsletter::where('email', $request->email)->first();            
-    //         if(!empty($validaNews)){
-    //             Newsletter::where('email', $request->email)->update(['status' => 1]);
-    //             $json = "Seu e-mail já está cadastrado!"; 
-    //             return response()->json(['sucess' => $json]);
-    //         }else{
-    //             $NewsletterCreate = Newsletter::create($request->all());
-    //             $NewsletterCreate->save();
-    //             $json = "Obrigado Cadastrado com sucesso!"; 
-    //             return response()->json(['sucess' => $json]);
-    //         }            
-    //     }
-    // }
 }
