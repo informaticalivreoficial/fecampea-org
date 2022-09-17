@@ -16,6 +16,8 @@
     <meta name="rating" content="general">
     <meta name="date" content="Dec 26">
 
+    <meta name="msvalidate.01" content="AB238289F13C246C5E386B6770D9F10E" />
+
     {!! $head ?? '' !!}
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
