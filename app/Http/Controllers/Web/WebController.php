@@ -4,20 +4,16 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\Web\Atendimento;
-use App\Mail\Web\AtendimentoRetorno;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 
 use App\Models\{
     Post,
     CatPost,
-    Estados,
-    Newsletter,
     Parceiro,
-    Slide,
     User
 };
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use App\Services\ConfigService;
 use App\Support\Seo;
 use Carbon\Carbon;
@@ -189,37 +185,90 @@ class WebController extends Controller
 
     public function pesquisa(Request $request)
     {
-        $search = $request->only('search');
+        $search = $request->search;
 
-        $paginas = Post::where(function($query) use ($request){
-            if($request->search){
-                $query->orWhere('titulo', 'LIKE', "%{$request->search}%")
-                    ->where('tipo', 'pagina')->postson();
-                $query->orWhere('content', 'LIKE', "%{$request->search}%")
-                    ->where('tipo', 'pagina')->postson();
-            }
-        })->postson()->limit(10)->get();
+        $resultado = [];
 
-        $artigos = Post::where(function($query) use ($request){
-            if($request->search){
-                $query->orWhere('titulo', 'LIKE', "%{$request->search}%")
-                    ->where('tipo', 'artigo')->postson();
-                $query->orWhere('content', 'LIKE', "%{$request->search}%")
-                    ->where('tipo', 'artigo')->postson();
-            }
-        })->postson()->limit(10)->get();
+        $paginas = Post::where('tipo', 'pagina')
+                ->where('content', 'LIKE', '%'.$search.'%')
+                ->where('titulo', 'LIKE', '%'.$search.'%')
+                ->postson()->limit(10)->get();
+
+        if(!empty($paginas) && $paginas->count() > 0){
+            foreach($paginas as $pagina){
+                $resultPagina[] =[
+                    'titulo' => $pagina->titulo,
+                    'tipo' => 'Página',
+                    'link' => route('web.pagina',['slug' => $pagina->slug]),
+                    'desc' => $pagina->content,
+                    'img'  => $pagina->cover()
+                ];
+            } 
+            $resultado = array_merge($resultado, $resultPagina);           
+        }
+        
+        $artigos = Post::where('tipo', 'artigo')
+                ->where('content', 'LIKE', '%'.$search.'%')
+                ->where('titulo', 'LIKE', '%'.$search.'%')
+                ->postson()->limit(10)->get();
+
+        if(!empty($artigos) && $artigos->count() > 0){
+            foreach($artigos as $artigo){
+                $resultArtigo[] =[
+                    'titulo' => $artigo->titulo,
+                    'tipo' => 'Artigo',
+                    'link' => route('web.blog.artigo',['slug' => $artigo->slug]),
+                    'desc' => $artigo->content,
+                    'img'  => $artigo->cover()
+                ];
+            }   
+            $resultado = array_merge($resultado, $resultArtigo);         
+        }        
+
+        $noticias = Post::where('tipo', 'noticia')
+                ->where('content', 'LIKE', '%'.$search.'%')
+                ->where('titulo', 'LIKE', '%'.$search.'%')
+                ->postson()->limit(10)->get();
+
+        if(!empty($noticias) && $noticias->count() > 0){
+            foreach($noticias as $noticia){
+                $resultNoticia[] =[
+                    'titulo' => $noticia->titulo,
+                    'tipo' => 'Notícia',
+                    'link' => route('web.noticia',['slug' => $noticia->slug]),
+                    'desc' => $noticia->content,
+                    'img'  => $noticia->cover()
+                ];
+            } 
+            $resultado = array_merge($resultado, $resultNoticia);           
+        }
         
         $head = $this->seo->render('Pesquisa por ' . $request->search ?? 'Informática Livre',
             'Pesquisa - ' . $this->configService->getConfig()->nomedosite,
-            route('web.blog.artigos'),
+            route('web.pesquisa'),
             $this->configService->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
         );
         
+        $data = $this->paginate($resultado);
+        $data->withPath('');
+
         return view('web.pesquisa',[
             'head' => $head,
-            'paginas' => $paginas,
-            'artigos' => $artigos
+            'data' => $data,
+            'search' => $search,
         ]);
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function paginate($items, $perPage = 25, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     public function pagina($slug)

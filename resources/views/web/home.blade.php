@@ -20,7 +20,8 @@
                                 </h1>
                                 <time datetime="{{ Carbon\Carbon::parse($noticia->created_at)->format('Y-m-d') }}" itemprop="datePublished">{{ Carbon\Carbon::parse($noticia->created_at)->formatLocalized('%d, %B %Y') }}</time>
                                 <time class="ds_none" datetime="{{ Carbon\Carbon::parse($noticia->updated_at)->format('Y-m-d') }}" itemprop="dateModified">{{ Carbon\Carbon::parse($noticia->updated_at)->format('d/m/Y') }}</time>
-                                <span class="ds_none" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{{$noticia->user->name}}</span></span>
+                                <span class="ds_none" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                                <span itemprop="name">{{$noticia->user->name}}</span></span>
                                 <span class="ds_none" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
                                     <span itemprop="name">{{$configuracoes->nomedosite}}</span>
                                     <span itemprop="Logo" itemscope itemtype="https://schema.org/ImageObject">

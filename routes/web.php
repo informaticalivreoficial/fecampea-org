@@ -40,7 +40,7 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     Route::get('/noticias/categoria/{slug}', [WebController::class, 'categoria'])->name('noticia.categoria');
     
     //** Pesquisa */
-    Route::match(['post', 'get'], '/pesquisa', [WebController::class, 'pesquisa'])->name('pesquisa');
+    Route::match(['post', 'get'], '/pesquisar', [WebController::class, 'pesquisa'])->name('pesquisa');
 
     /** FEED */
     Route::get('feed', [RssFeedController::class, 'feed'])->name('feed');

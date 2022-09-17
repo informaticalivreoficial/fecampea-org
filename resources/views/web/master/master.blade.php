@@ -118,6 +118,24 @@
                             </div>                
                         </div>
                     @endif
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-5 col-lg-4">
+                            <div class="widget widget">
+                                {{$configuracoes->descricao}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget widget_menu">
+                        <nav class="sitemap">
+                            <ul>
+                                <li><a href="{{route('web.politica')}}">Política de Privacidade</a></li>
+                                <li><a href="{{route('web.atendimento')}}">Fale Conosco</a></li>
+                                <li><a href="{{route('web.pesquisa')}}">Pesquisar no site</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                                 
                     <div class="widget widget_newsletter">                
                         <form action="" method="post" class="form_newsletter j_submitnewsletter">                    
