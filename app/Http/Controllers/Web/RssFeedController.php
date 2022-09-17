@@ -13,7 +13,7 @@ class RssFeedController extends Controller
         $paginas = Post::orderBy('created_at', 'DESC')->where('tipo', 'pagina')->postson()->limit(10)->get();
         $noticias = Post::orderBy('created_at', 'DESC')->where('tipo', 'noticia')->postson()->limit(15)->get();
         
-        return response()->view('web.feed', [
+        return response()->view('web.'.$this->configService->getConfig()->template.'.feed', [
             'noticias' => $noticias,
             'posts' => $posts,
             'paginas' => $paginas
