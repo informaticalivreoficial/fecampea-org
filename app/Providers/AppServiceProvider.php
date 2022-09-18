@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         View()->share('configuracoes', $configuracoes);
 
         //Categorias de Notícias
-        $catnoticias = CatPost::where('tipo', 'noticia')
+        $catnoticias = CatPost::where('tipo', 'artigo')
                         ->available()
                         ->whereNotNull('id_pai')
                         ->get();
