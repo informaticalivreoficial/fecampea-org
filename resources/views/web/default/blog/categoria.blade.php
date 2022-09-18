@@ -13,19 +13,19 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="min-height: 360px;">
                         <article>
                             <figure>
-                                <a href="{{route('web.blog.categoria', [ 'slug' => $post->categoriaObject->slug ])}}">
+                                <a href="{{route('web.blog.artigo', [ 'slug' => $post->slug ])}}">
                                     <img style="max-height: 219px;" title="{{$post->titulo}}" alt="{{$post->titulo}}" src="{{$post->cover()}}">
                                 </a>
                             </figure>
                             <header>
                                 <h5 style="text-transform: lowercase;">
-                                    <a href="{{route('web.blog.categoria', [ 'slug' => $post->categoriaObject->slug ])}}">
+                                    <a href="{{route('web.blog.artigo', [ 'slug' => $post->slug ])}}">
                                         {{$post->titulo}}
                                     </a>
                                 </h5>
                             </header>
                             {!! Words($post->content, 19) !!} 
-                            <b><a href="{{route('web.blog.categoria', [ 'slug' => $post->categoriaObject->slug ])}}" class="readMore">Leia+</a></b>
+                            <b><a href="{{route('web.blog.artigo', [ 'slug' => $post->slug ])}}" class="readMore">Leia+</a></b>
                         </article>
                         </div>
                     @endforeach
