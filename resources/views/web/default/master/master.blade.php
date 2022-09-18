@@ -91,7 +91,7 @@
 								<ul class="lg-submenu">
 									@foreach ($catnoticias as $catn)
 										@if ($catn->countposts() >= 1)
-											<li> <a href="{{route('web.blogcategoria', [ 'slug' => $catn->slug ])}}"><i class="fa fa-angle-double-right"></i> {{$catn->titulo}}</a></li>
+											<li> <a href="{{route('web.blog.categoria', [ 'slug' => $catn->slug ])}}"><i class="fa fa-angle-double-right"></i> {{$catn->titulo}}</a></li>
 										@endif										
 									@endforeach																	
 								</ul>
