@@ -14,7 +14,7 @@
                             </figure>
                             <header>
                                 <h1>
-                                    <a itemprop="mainEntytiOfPage" href="{{route('web.noticia', ['slug' => $noticia->slug ])}}">
+                                    <a itemprop="mainEntytiOfPage" href="{{route('web.blog.artigo', ['slug' => $noticia->slug ])}}">
                                         <span itemprop="headline">{{ $noticia->titulo }}</span>
                                     </a>
                                 </h1>
@@ -30,7 +30,7 @@
                                 </span>
                                 <div class="specialContent">
                                     <div class="shareWrapper">
-                                        <a href="{{route('web.noticia', ['slug' => $noticia->slug ])}}"></a>
+                                        <a href="{{route('web.blog.artigo', ['slug' => $noticia->slug ])}}"></a>
                                     </div>
                                     <a class="cat-tag" href="{{route('web.blog.categoria', [ 'slug' => $noticia->categoriaObject->slug ])}}">{{$noticia->categoriaObject->titulo}}</a>
                                 </div>
@@ -51,7 +51,7 @@
                                 </figure>
                                 <header>
                                     <h3>
-                                        <a itemprop="mainEntytiOfPage" href="{{route('web.noticia', ['slug' => $noticia->slug ])}}">
+                                        <a itemprop="mainEntytiOfPage" href="{{route('web.blog.artigo', ['slug' => $noticia->slug ])}}">
                                             <span itemprop="headline">{{ $noticia->titulo }}</span>
                                         </a>
                                     </h3>
@@ -69,7 +69,7 @@
                             </article>
                             @endforeach
                         @endif                                             
-                        <a href="{{route('web.noticias')}}" class="loadTimeline">Ver Mais</a>
+                        <a href="{{route('web.blog.artigos')}}" class="loadTimeline">Ver Mais</a>
                     </div>
                 </div>
             </aside>
@@ -91,7 +91,7 @@
                             </figure>
                             <header>
                                 <h3>
-                                    <a href="{{route('web.noticia', ['slug' => $noticia->slug ])}}">
+                                    <a href="{{route('web.blog.artigo', ['slug' => $noticia->slug ])}}">
                                         {{ $noticia->titulo }}
                                     </a>
                                 </h3>
@@ -101,7 +101,7 @@
                                 <p>{!! $noticia->content_web !!}</p>
                             </div>
                             <footer>
-                            <a href="{{route('web.noticia', ['slug' => $noticia->slug ])}}" class="readMore">Leia Mais</a> 
+                            <a href="{{route('web.blog.artigos', ['slug' => $noticia->slug ])}}" class="readMore">Leia Mais</a> 
                             </footer>
                         </article>
                     </div>
