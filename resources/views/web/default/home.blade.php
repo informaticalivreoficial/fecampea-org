@@ -101,7 +101,7 @@
                                 <p>{!! $noticia->content_web !!}</p>
                             </div>
                             <footer>
-                            <a href="{{route('web.blog.artigos', ['slug' => $noticia->slug ])}}" class="readMore">Leia Mais</a> 
+                            <a href="{{route('web.blog.artigo', ['slug' => $noticia->slug ])}}" class="readMore">Leia Mais</a> 
                             </footer>
                         </article>
                     </div>
